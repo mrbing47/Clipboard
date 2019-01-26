@@ -62,7 +62,7 @@ public class MyForegroundService extends Service implements ClipboardManager.OnP
         }
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_dashboard)
                 .setContentTitle("Clipboard is Running")
                 .setContentText("Clipboard is looking for all the copied data")
                 .setAutoCancel(false)

@@ -58,9 +58,7 @@ public class MyForegroundService extends Service implements ClipboardManager.OnP
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (intent.hasExtra("KEY")) {
-            Log.e(TAG, "onStartCommand: Removing Intent");
-            stopForeground(true);
-            stopSelf();
+            stopService();
         }
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
@@ -116,8 +114,17 @@ public class MyForegroundService extends Service implements ClipboardManager.OnP
         return false;
     }
 
+    public void stopService() {
+        Log.e(TAG, "onStartCommand: Removing Intent");
+        clipboardManager.removePrimaryClipChangedListener(this);
+        isListening = false;
+        stopForeground(true);
+        stopSelf();
+    }
+
     @Override
     public void onDestroy() {
+        Log.e(TAG, "onDestroy: ");
         clipboardManager.removePrimaryClipChangedListener(this);
         isListening = false;
         super.onDestroy();

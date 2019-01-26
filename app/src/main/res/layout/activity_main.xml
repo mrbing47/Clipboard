@@ -23,7 +23,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/button_color"
-            android:text="Start" />
+            android:text="Start"
+            android:textColor="@color/text_color" />
 
         <Button
             android:id="@+id/btnRemove"
@@ -31,14 +32,17 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/button_color"
-            android:text="Stop" />
+            android:text="Stop"
+            android:textColor="@color/text_color" />
+
         <Button
             android:id="@+id/btnDeleteAll"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/button_color"
-            android:text="Delete All" />
+            android:text="Delete All"
+            android:textColor="@color/text_color" />
 
     </LinearLayout>
 

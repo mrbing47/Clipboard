@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         btnRemove = findViewById(R.id.btnRemove);
         btnDeleteAll = findViewById(R.id.btnDeleteAll);
 
-        callAaptor();
+        callAdapter();
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
 
                                 deleteAll(ClipApplication.getClipDb().getClipDao().getAll());
-                                callAaptor();
-                                Toast.makeText(MainActivity.this, "ALL CLIP REMOVED", Toast.LENGTH_SHORT).show();
+                                callAdapter();
+                                Toast.makeText(MainActivity.this, "ALL CLIPS ARE REMOVED", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void callAaptor() {
+    public void callAdapter() {
         rvClipBoard.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         clipAdaptor = new ClipAdaptor(ClipApplication.getClipDb().getClipDao().getAll(), this);
         rvClipBoard.setAdapter(clipAdaptor);
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
 
-        callAaptor();
+        callAdapter();
         super.onResume();
     }
 }

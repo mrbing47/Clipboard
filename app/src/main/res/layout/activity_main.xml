@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF5722"
+    android:background="@color/background_color"
     android:orientation="vertical"
     tools:context=".MainActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/MyCustomTheme"
+        app:titleTextColor="@color/text_color"/>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvClipBoard"
@@ -35,16 +47,6 @@
             android:text="Stop"
             android:textColor="@color/text_color" />
 
-        <Button
-            android:id="@+id/btnDeleteAll"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/button_color"
-            android:text="Delete All"
-            android:textColor="@color/text_color" />
-
     </LinearLayout>
-
 
 </LinearLayout>

@@ -18,7 +18,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
             <TextView
                 android:id="@+id/tvClipContent"
                 android:layout_width="match_parent"
@@ -27,14 +26,26 @@
                 android:padding="8dp"
                 android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/tvClipDate"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:padding="4dp"
-                android:textSize="10sp"
-                android:text="Date" />
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:id="@+id/cbItemSelected"
+                    android:layout_gravity="end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tvClipDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:padding="4dp"
+                    android:textSize="10sp"
+                    android:text="Date" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
     </android.support.v7.widget.CardView>

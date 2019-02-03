@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:icon="@drawable/ic_done_white"
+        android:id="@+id/miSave"
+        android:title="Save"
+        app:showAsAction="ifRoom" />
+    <item
+        android:icon="@drawable/ic_clear_white"
+        android:id="@+id/miDiscard"
+        android:title="Discard"
+        app:showAsAction="ifRoom" />
+</menu>

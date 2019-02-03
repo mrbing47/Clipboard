@@ -1,20 +1,22 @@
 package garg.sarthik.clipboard;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +24,7 @@ import java.util.List;
 public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
 
 
+    private static final String TAG = "Clip Adapter";
     ClipboardManager clipboardManager;
     ClipData clipData;
 
@@ -38,7 +41,7 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_clipitem,viewGroup,false));
+        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_clipitem, viewGroup, false));
     }
 
     @Override
@@ -52,10 +55,10 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clipData = ClipData.newPlainText("adaptor",clip.getContent());
+                clipData = ClipData.newPlainText("adaptor", clip.getContent());
                 clipboardManager.setPrimaryClip(clipData);
 
-                Toast.makeText(context,  "Added to Clipboard", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Added to Clipboard", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -68,7 +71,7 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
                         clipList.remove(i);
                         ClipApplication.getClipDb().getClipDao().deleteClip(clip);
                         notifyDataSetChanged();
-                        Toast.makeText(context, "CLIP REMOVED", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "That clip had some interesting data", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -81,8 +84,17 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
         viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                    alertDialog.show();
+               // alertDialog.show();
+                context.startActivity(new Intent(context,EditActivity.class).putExtra("clip",clipList.get(i)));
+                //((Activity)context).finish();
                 return true;
+            }
+        });
+
+        viewHolder.cbItemSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                clipList.get(i).setChecked(isChecked);
             }
         });
 
@@ -98,11 +110,14 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
 
         TextView tvClipContent;
         TextView tvClipDate;
+        CheckBox cbItemSelected;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             tvClipContent = itemView.findViewById(R.id.tvClipContent);
             tvClipDate = itemView.findViewById(R.id.tvClipDate);
+            cbItemSelected = itemView.findViewById(R.id.cbItemSelected);
 
         }
     }

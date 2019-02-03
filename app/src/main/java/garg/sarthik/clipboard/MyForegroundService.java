@@ -8,6 +8,7 @@ import android.app.Service;
 import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Intent;
+import android.database.sqlite.SQLiteConstraintException;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
@@ -26,7 +27,6 @@ public class MyForegroundService extends Service implements ClipboardManager.OnP
     public final String TAG = "Service";
     ClipboardManager clipboardManager;
     NotificationManager notificationManager;
-    List<Clip> clipList;
 
     @Override
     public void onCreate() {
@@ -49,7 +49,6 @@ public class MyForegroundService extends Service implements ClipboardManager.OnP
             notificationManager.createNotificationChannel(notificationChannel);
         }
 
-        clipList = ClipApplication.getClipDb().getClipDao().getAll();
         Intent stopForeground = new Intent(this, MyForegroundService.class);
         stopForeground.putExtra("KEY", true);
         PendingIntent pi = PendingIntent.getService(this,
@@ -95,23 +94,13 @@ public class MyForegroundService extends Service implements ClipboardManager.OnP
 
     public void addClip(String text) {
         Clip clip = new Clip(text, DateFormat.getDateTimeInstance().format(new Date()));
-        if (!contains(clipList, text)) {
-            clipList.add(clip);
+        try {
             ClipApplication.getClipDb().getClipDao().insertClip(clip);
             Log.e(TAG, "onPrimaryClipChanged: " + text);
-        } else {
+        } catch (SQLiteConstraintException e) {
+            Log.e(TAG, "addClip: ", e);
             ClipApplication.getClipDb().getClipDao().updateClip(clip);
         }
-
-    }
-
-    public boolean contains(List<Clip> clipList, String text) {
-
-        for (Clip clip : clipList)
-            if (clip.getContent().equals(text))
-                return true;
-
-        return false;
     }
 
     public void stopService() {

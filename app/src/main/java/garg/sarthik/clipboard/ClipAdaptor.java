@@ -1,15 +1,11 @@
 package garg.sarthik.clipboard;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,32 +57,10 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
                 Toast.makeText(context, "Added to Clipboard", Toast.LENGTH_SHORT).show();
             }
         });
-
-        final AlertDialog alertDialog = new AlertDialog.Builder(context)
-                .setTitle("DO YOU WANT TO DELETE THIS CLIP?")
-                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        clipList.remove(i);
-                        ClipApplication.getClipDb().getClipDao().deleteClip(clip);
-                        notifyDataSetChanged();
-                        Toast.makeText(context, "That clip had some interesting data", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(context, "WOAH!! THAT WAS A CLOSE ONE", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .create();
         viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-               // alertDialog.show();
-                context.startActivity(new Intent(context,EditActivity.class).putExtra("clip",clipList.get(i)));
-                //((Activity)context).finish();
+                context.startActivity(new Intent(context, EditActivity.class).putExtra("clip", clipList.get(i)));
                 return true;
             }
         });

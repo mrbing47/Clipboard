@@ -12,8 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.List;
@@ -22,8 +20,6 @@ public class MainActivity extends AppCompatActivity {
 
     public final String TAG = "MainActivity";
     RecyclerView rvClipBoard;
-    Button btnAdd;
-    Button btnRemove;
     Toolbar toolbar;
 
     boolean isSelected;
@@ -42,38 +38,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         rvClipBoard = findViewById(R.id.rvClipBoard);
-        btnAdd = findViewById(R.id.btnAdd);
-        btnRemove = findViewById(R.id.btnRemove);
-
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!MyForegroundService.isListening) {
-                    intent = new Intent(MainActivity.this, MyForegroundService.class);
-                    ContextCompat.startForegroundService(MainActivity.this, intent);
-                    MyForegroundService.isListening = true;
-                    Log.e(TAG, "onClick: btnAdd" + MyForegroundService.isListening);
-                    Toast.makeText(MainActivity.this, "Go Go Go", Toast.LENGTH_SHORT).show();
-                } else
-                    Toast.makeText(MainActivity.this, "Check your notifications", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        btnRemove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e(TAG, "onClick: Entering btnRemove, isListening Value = " + MyForegroundService.isListening);
-                if (MyForegroundService.isListening) {
-                    Log.e(TAG, "onClick: btnRemove");
-                    intent = new Intent(MainActivity.this, MyForegroundService.class);
-                    intent.putExtra("KEY", true);
-                    ContextCompat.startForegroundService(MainActivity.this, intent);
-                    MyForegroundService.isListening = false;
-                    Toast.makeText(MainActivity.this, "Fallback", Toast.LENGTH_SHORT).show();
-                } else
-                    Toast.makeText(MainActivity.this, "I know the meaning of Stop", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
@@ -87,6 +51,32 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
+            case R.id.miStart: {
+                if (!MyForegroundService.isListening) {
+                    intent = new Intent(MainActivity.this, MyForegroundService.class);
+                    ContextCompat.startForegroundService(MainActivity.this, intent);
+                    MyForegroundService.isListening = true;
+                    Log.e(TAG, "onClick: btnAdd" + MyForegroundService.isListening);
+                    Toast.makeText(MainActivity.this, "Go Go Go", Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(MainActivity.this, "Check your notifications", Toast.LENGTH_SHORT).show();
+
+                return true;
+            }
+            case R.id.miStop: {
+                Log.e(TAG, "onClick: Entering btnRemove, isListening Value = " + MyForegroundService.isListening);
+                if (MyForegroundService.isListening) {
+                    Log.e(TAG, "onClick: btnRemove");
+                    intent = new Intent(MainActivity.this, MyForegroundService.class);
+                    intent.putExtra("KEY", true);
+                    ContextCompat.startForegroundService(MainActivity.this, intent);
+                    MyForegroundService.isListening = false;
+                    Toast.makeText(MainActivity.this, "Fallback", Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(MainActivity.this, "I know the meaning of Stop", Toast.LENGTH_SHORT).show();
+
+                return true;
+            }
             case R.id.miDelete: {
                 new AlertDialog.Builder(this)
                         .setTitle("DO YOU WANT TO DELETE THE SELECTED CLIP(S)?")
@@ -100,11 +90,10 @@ public class MainActivity extends AppCompatActivity {
                                         ClipApplication.getClipDb().getClipDao().deleteClip(clip);
                                     }
                                 }
-                                if(isSelected) {
+                                if (isSelected) {
                                     callAdapter();
                                     Toast.makeText(MainActivity.this, "I will miss them", Toast.LENGTH_SHORT).show();
-                                }
-                                else
+                                } else
                                     Toast.makeText(MainActivity.this, "Please select the victim first", Toast.LENGTH_SHORT).show();
 
                             }

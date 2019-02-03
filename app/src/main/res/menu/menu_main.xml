@@ -3,6 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/miStart"
+        android:icon="@drawable/ic_add_white"
+        android:title="Start"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/miStop"
+        android:icon="@drawable/ic_cancel_white"
+        android:title="Stop"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/action_more"
         android:icon="@drawable/ic_more_vert_black_24dp"
         android:title=""

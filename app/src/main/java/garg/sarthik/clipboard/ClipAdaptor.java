@@ -52,7 +52,6 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
         else {
             String txt = clip.getContent().substring(0, 253) + "...";
             viewHolder.tvClipContent.setText(txt);
-            Log.e(TAG, "onBindViewHolder: " + txt.length());
         }
         viewHolder.tvClipDate.setText(clip.getDate());
         viewHolder.cbItemBookmarked.setChecked(clipList.get(i).getBookmarked() == 1 ? true : false);

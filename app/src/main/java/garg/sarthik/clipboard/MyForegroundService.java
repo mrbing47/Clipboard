@@ -82,6 +82,7 @@ public class MyForegroundService extends Service implements ClipboardManager.OnP
     @Override
     public void onPrimaryClipChanged() {
 
+        Log.e(TAG, "onPrimaryClipChanged: CLIP LABEL = " + clipboardManager.getPrimaryClipDescription().getLabel());
         String text;
         if (!clipboardManager.getPrimaryClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_INTENT) && clipboardManager.getPrimaryClip().getItemAt(0).getText() != null) {
             text = clipboardManager.getPrimaryClip().getItemAt(0).getText().toString().trim();
@@ -89,7 +90,7 @@ public class MyForegroundService extends Service implements ClipboardManager.OnP
         } else
             Toast.makeText(this, "Clipboard can only handle plain text", Toast.LENGTH_SHORT).show();
 
-        Log.e(TAG, "onPrimaryClipChanged: MIME TYPE " + clipboardManager.getPrimaryClipDescription().getMimeType(0));
+        Log.e(TAG, "onPrimaryClipChanged: MIME TYPE = " + clipboardManager.getPrimaryClipDescription().getMimeType(0));
     }
 
     public void addClip(String text) {

@@ -61,7 +61,7 @@ public class EditActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.miSave: {
-                modTxt = etClip.getText().toString();
+                modTxt = etClip.getText().toString().trim();
                 Clip clip = new Clip(modTxt, DateFormat.getDateTimeInstance().format(new Date()));
                 if (!orgTxt.equals(modTxt)) {
                     ClipApplication.getClipDb().getClipDao().deleteClip(orgClip);

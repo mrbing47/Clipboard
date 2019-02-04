@@ -9,13 +9,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.util.Date;
 
 public class EditActivity extends AppCompatActivity {
 
+    private static final String TAG = "Focus";
     Toolbar toolbar;
     TextView tvEditDate;
     EditText etClip;
@@ -25,11 +25,12 @@ public class EditActivity extends AppCompatActivity {
 
     Clip orgClip;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
-        toolbar = findViewById(R.id.edit_toolbar);
+        toolbar = findViewById(R.id.toolbarEdit);
         setSupportActionBar(toolbar);
 
         tvEditDate = findViewById(R.id.tvEditDate);
@@ -60,7 +61,6 @@ public class EditActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.miSave: {
-
                 modTxt = etClip.getText().toString();
                 Clip clip = new Clip(modTxt, DateFormat.getDateTimeInstance().format(new Date()));
                 if (!orgTxt.equals(modTxt)) {
@@ -72,7 +72,7 @@ public class EditActivity extends AppCompatActivity {
                 finish();
             }
 
-            case R.id.miDiscard:{
+            case R.id.miDiscard: {
                 finish();
             }
             default:

@@ -19,6 +19,11 @@
         app:showAsAction="always">
         <menu>
             <item
+                android:id="@+id/miBookmark"
+                android:icon="@drawable/ic_collections_bookmark_black"
+                android:title="Bookmarked"
+                app:showAsAction="ifRoom" />
+            <item
                 android:id="@+id/miDelete"
                 android:icon="@drawable/ic_delete_black"
                 android:title="Delete"

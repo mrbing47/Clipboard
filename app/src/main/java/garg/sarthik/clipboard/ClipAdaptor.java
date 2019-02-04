@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,8 +46,17 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
 
         final Clip clip = clipList.get(i);
 
-        viewHolder.tvClipContent.setText(clip.getContent());
+
+        if (clip.getContent().length() <= 256)
+            viewHolder.tvClipContent.setText(clip.getContent());
+        else {
+            String txt = clip.getContent().substring(0, 253) + "...";
+            viewHolder.tvClipContent.setText(txt);
+            Log.e(TAG, "onBindViewHolder: " + txt.length());
+        }
         viewHolder.tvClipDate.setText(clip.getDate());
+        viewHolder.cbItemBookmarked.setChecked(clipList.get(i).getBookmarked() == 1 ? true : false);
+
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +81,14 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
                 clipList.get(i).setChecked(isChecked);
             }
         });
-
+        viewHolder.cbItemBookmarked.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                int checked = isChecked ? 1 : 0;
+                clipList.get(i).setBookmarked(checked);
+                ClipApplication.getClipDb().getClipDao().updateClip(clipList.get(i));
+            }
+        });
 
     }
 
@@ -85,6 +102,7 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
         TextView tvClipContent;
         TextView tvClipDate;
         CheckBox cbItemSelected;
+        CheckBox cbItemBookmarked;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -92,6 +110,7 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
             tvClipContent = itemView.findViewById(R.id.tvClipContent);
             tvClipDate = itemView.findViewById(R.id.tvClipDate);
             cbItemSelected = itemView.findViewById(R.id.cbItemSelected);
+            cbItemBookmarked = itemView.findViewById(R.id.cbItemBookmarked);
 
         }
     }

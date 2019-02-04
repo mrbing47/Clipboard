@@ -2,48 +2,42 @@ package garg.sarthik.clipboard;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class BookmarkActivity extends AppCompatActivity {
 
-    public final String TAG = "MainActivity";
-    RecyclerView rvClipBoard;
     Toolbar toolbar;
+    RecyclerView rvClipBoard;
 
-    boolean isSelected;
-
-    Intent intent;
     ClipAdaptor clipAdaptor;
     List<Clip> clipList;
+
+    boolean isSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        toolbar = findViewById(R.id.toolbarMain);
-
+        setContentView(R.layout.activity_bookmark);
+        toolbar = findViewById(R.id.toolbarBookmark);
         setSupportActionBar(toolbar);
 
-        rvClipBoard = findViewById(R.id.rvClipBoard);
+        rvClipBoard = findViewById(R.id.rvClipBoardBookmark);
+        callAdapter();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_bookmark, menu);
         return true;
     }
 
@@ -51,37 +45,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.miStart: {
-                if (!MyForegroundService.isListening) {
-                    intent = new Intent(MainActivity.this, MyForegroundService.class);
-                    ContextCompat.startForegroundService(MainActivity.this, intent);
-                    MyForegroundService.isListening = true;
-                    Log.e(TAG, "onClick: btnAdd" + MyForegroundService.isListening);
-                    Toast.makeText(MainActivity.this, "Go Go Go", Toast.LENGTH_SHORT).show();
-                } else
-                    Toast.makeText(MainActivity.this, "Check your notifications", Toast.LENGTH_SHORT).show();
-
-                return true;
-            }
-            case R.id.miStop: {
-                Log.e(TAG, "onClick: Entering btnRemove, isListening Value = " + MyForegroundService.isListening);
-                if (MyForegroundService.isListening) {
-                    Log.e(TAG, "onClick: btnRemove");
-                    intent = new Intent(MainActivity.this, MyForegroundService.class);
-                    intent.putExtra("KEY", true);
-                    ContextCompat.startForegroundService(MainActivity.this, intent);
-                    MyForegroundService.isListening = false;
-                    Toast.makeText(MainActivity.this, "Fallback", Toast.LENGTH_SHORT).show();
-                } else
-                    Toast.makeText(MainActivity.this, "I know the meaning of Stop", Toast.LENGTH_SHORT).show();
-
-                return true;
-            }
-            case R.id.miBookmark:{
-                startActivity(new Intent(this,BookmarkActivity.class));
-                return true;
-            }
-            case R.id.miDelete: {
+            case R.id.miDeleteBookmark: {
                 new AlertDialog.Builder(this)
                         .setTitle("DO YOU WANT TO DELETE THE SELECTED CLIP(S)?")
                         .setPositiveButton("YES", new DialogInterface.OnClickListener() {
@@ -96,25 +60,24 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 if (isSelected) {
                                     callAdapter();
-                                    Toast.makeText(MainActivity.this, "I will miss them", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(BookmarkActivity.this, "I will miss them", Toast.LENGTH_SHORT).show();
                                 } else
-                                    Toast.makeText(MainActivity.this, "Please select the victim first", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(BookmarkActivity.this, "Please select the victim first", Toast.LENGTH_SHORT).show();
 
                             }
                         })
                         .setNegativeButton("NO", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(MainActivity.this, "WOAH!! THAT WAS A CLOSE ONE", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(BookmarkActivity.this, "WOAH!! THAT WAS A CLOSE ONE", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .create()
                         .show();
-
                 return true;
             }
-            case R.id.miDeleteAll: {
-                new AlertDialog.Builder(MainActivity.this)
+            case R.id.miDeleteAllBookmark: {
+                new AlertDialog.Builder(BookmarkActivity.this)
                         .setTitle("DO YOU WANT TO DELETE ALL CLIPS?")
                         .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                             @Override
@@ -122,13 +85,13 @@ public class MainActivity extends AppCompatActivity {
 
                                 deleteAll(clipList);
                                 callAdapter();
-                                Toast.makeText(MainActivity.this, "RIP to all those clips", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(BookmarkActivity.this, "RIP to all those clips", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .setNegativeButton("NO", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(MainActivity.this, "WOAH!! THAT WAS A CLOSE ONE", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(BookmarkActivity.this, "WOAH!! THAT WAS A CLOSE ONE", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .create()
@@ -148,15 +111,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void callAdapter() {
         rvClipBoard.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        clipList = ClipApplication.getClipDb().getClipDao().getAll();
+        clipList = ClipApplication.getClipDb().getClipDao().getBookmarked();
         clipAdaptor = new ClipAdaptor(clipList, this);
         rvClipBoard.setAdapter(clipAdaptor);
     }
-
-    @Override
-    protected void onResume() {
-        callAdapter();
-        super.onResume();
-    }
-
 }

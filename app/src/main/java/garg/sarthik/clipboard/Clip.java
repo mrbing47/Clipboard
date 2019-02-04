@@ -25,6 +25,7 @@ public class Clip implements Parcelable {
     @PrimaryKey
     private String content;
     private String date;
+    private int bookmarked = 0;
     @Ignore
     private boolean isChecked = false;
 
@@ -53,6 +54,14 @@ public class Clip implements Parcelable {
 
     public void setChecked(boolean checked) {
         isChecked = checked;
+    }
+
+    public int getBookmarked() {
+        return bookmarked;
+    }
+
+    public void setBookmarked(int bookmarked) {
+        this.bookmarked = bookmarked;
     }
 
     @Override

@@ -19,6 +19,9 @@ public interface ClipDao {
     @Query("DELETE from clip")
     void deleteAll();
 
+    @Query("SELECT * FROM clip WHERE bookmarked = 1 ")
+    List<Clip> getBookmarked();
+
     @Insert
     void insertClipList(List<Clip> clipList);
 

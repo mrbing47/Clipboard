@@ -10,7 +10,7 @@
     tools:context=".EditActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/edit_toolbar"
+        android:id="@+id/toolbarEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"

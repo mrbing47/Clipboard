@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -22,6 +23,7 @@ public class EditActivity extends AppCompatActivity {
 
     String orgTxt;
     String modTxt;
+    int bookmark;
 
     Clip orgClip;
 
@@ -37,7 +39,10 @@ public class EditActivity extends AppCompatActivity {
         etClip = findViewById(R.id.etClip);
 
         if (getIntent() != null) {
+
             orgClip = getIntent().getParcelableExtra("clip");
+            bookmark = getIntent().getIntExtra("bookmark",0);
+
             orgTxt = orgClip.getContent();
             etClip.setText(orgTxt);
             tvEditDate.setText(orgClip.getDate());
@@ -62,7 +67,8 @@ public class EditActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.miSave: {
                 modTxt = etClip.getText().toString().trim();
-                Clip clip = new Clip(modTxt, DateFormat.getDateTimeInstance().format(new Date()));
+                Clip clip = new Clip(modTxt, DateFormat.getDateTimeInstance().format(new Date()), bookmark);
+                Log.e(TAG, "onOptionsItemSelected: Bookmarked = " + bookmark );
                 if (!orgTxt.equals(modTxt)) {
                     ClipApplication.getClipDb().getClipDao().deleteClip(orgClip);
                     ClipApplication.getClipDb().getClipDao().insertClip(clip);

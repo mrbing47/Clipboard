@@ -15,24 +15,26 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Collections;
 import java.util.List;
 
 public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
 
 
     private static final String TAG = "Clip Adapter";
-    ClipboardManager clipboardManager;
-    ClipData clipData;
+    private ClipboardManager clipboardManager;
+    private ClipData clipData;
 
-    List<Clip> clipList;
-    Context context;
+    private MainActivity ma;
+    private List<Clip> clipList;
+    private Context context;
 
-    public ClipAdaptor(List<Clip> clipList, Context context) {
-        Collections.reverse(clipList);
+    public ClipAdaptor(List<Clip> clipList, Context context, MainActivity ma) {
+        //Collections.reverse(clipList);
+        this.ma = ma;
         this.clipList = clipList;
         this.context = context;
         clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        Log.e(TAG, "ClipAdaptor: ");
     }
 
     @NonNull
@@ -44,23 +46,26 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
 
-        final Clip clip = clipList.get(i);
-
-
-        if (clip.getContent().length() <= 256)
-            viewHolder.tvClipContent.setText(clip.getContent());
-        else {
-            String txt = clip.getContent().substring(0, 253) + "...";
-            viewHolder.tvClipContent.setText(txt);
+        boolean isChecked = false;
+        if (clipList.get(i).getBookmarked() == 1) {
+            isChecked = true;
         }
-        viewHolder.tvClipDate.setText(clip.getDate());
-        viewHolder.cbItemBookmarked.setChecked(clipList.get(i).getBookmarked() == 1 ? true : false);
 
+        if (clipList.get(i).getContent().length() <= 256)
+            viewHolder.tvClipContent.setText(clipList.get(i).getContent());
+        else {
+            String txt = clipList.get(i).getContent().substring(0, 253) + "...";
+            viewHolder.tvClipContent.setText(txt);
+            Log.e(TAG, "onBindViewHolder: " + txt);
+        }
+
+        viewHolder.tvClipDate.setText(clipList.get(i).getDate());
+        viewHolder.cbItemBookmarked.setChecked(isChecked);
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clipData = ClipData.newPlainText("adaptor", clip.getContent());
+                clipData = ClipData.newPlainText("adaptor", clipList.get(i).getContent());
                 clipboardManager.setPrimaryClip(clipData);
 
                 Toast.makeText(context, "Added to Clipboard", Toast.LENGTH_SHORT).show();
@@ -69,7 +74,10 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
         viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                context.startActivity(new Intent(context, EditActivity.class).putExtra("clip", clipList.get(i)));
+                Log.e("Focus", "onLongClick: " + clipList.get(i).getBookmarked());
+                context.startActivity(new Intent(context, EditActivity.class)
+                        .putExtra("clip", clipList.get(i))
+                        .putExtra("bookmark", clipList.get(i).getBookmarked()));
                 return true;
             }
         });

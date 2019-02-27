@@ -29,9 +29,17 @@ public class Clip implements Parcelable {
     @Ignore
     private boolean isChecked = false;
 
+
     public Clip(String content, String date) {
         this.content = content;
         this.date = date;
+    }
+
+    @Ignore
+    public Clip(@NonNull String content, String date, int bookmarked) {
+        this.content = content;
+        this.date = date;
+        this.bookmarked = bookmarked;
     }
 
     protected Clip(Parcel in) {

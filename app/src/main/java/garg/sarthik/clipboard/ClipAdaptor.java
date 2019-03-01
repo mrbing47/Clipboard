@@ -93,6 +93,8 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 int checked = isChecked ? 1 : 0;
                 clipList.get(i).setBookmarked(checked);
+                if (ma != null)
+                    ma.updateAdapter(1);
                 ClipApplication.getClipDb().getClipDao().updateClip(clipList.get(i));
             }
         });

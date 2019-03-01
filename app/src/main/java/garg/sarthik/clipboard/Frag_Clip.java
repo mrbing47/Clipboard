@@ -67,6 +67,12 @@ public class Frag_Clip extends Fragment {
 
     void updateAdapter(){
         Log.e(TAG, "updateAdapter: Received");
-        clipAdaptor.notifyDataSetChanged();
+        rvClipBoard.post(new Runnable() {
+            @Override
+            public void run() {
+                clipAdaptor.notifyDataSetChanged();
+            }
+        });
+
     }
 }

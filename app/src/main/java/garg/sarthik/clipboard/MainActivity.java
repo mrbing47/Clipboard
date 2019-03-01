@@ -27,32 +27,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements Parcelable {
 
-    public String TAG = "MainActivity";
-    RecyclerView rvClipBoard;
-    Toolbar toolbar;
-
-    boolean isSelected;
-    int currentPage = 1;
-
-    Intent intent;
-    TabLayout tabLayout;
-    ViewPager vp;
-
-    List<Clip> clipAll;
-    List<Clip> clipBookmark;
-
-    Frag_Clip fragAll;
-    Frag_Clip fragBookmark;
-
-    protected MainActivity(Parcel in) {
-        TAG = in.readString();
-        isSelected = in.readByte() != 0;
-        currentPage = in.readInt();
-        intent = in.readParcelable(Intent.class.getClassLoader());
-        clipAll = in.createTypedArrayList(Clip.CREATOR);
-        clipBookmark = in.createTypedArrayList(Clip.CREATOR);
-    }
-
     public static final Creator<MainActivity> CREATOR = new Creator<MainActivity>() {
         @Override
         public MainActivity createFromParcel(Parcel in) {
@@ -64,6 +38,31 @@ public class MainActivity extends AppCompatActivity implements Parcelable {
             return new MainActivity[size];
         }
     };
+
+    public MainActivity() {
+    }
+
+    public String TAG = "MainActivity";
+    RecyclerView rvClipBoard;
+    Toolbar toolbar;
+    boolean isSelected;
+    int currentPage = 1;
+    Intent intent;
+    TabLayout tabLayout;
+    ViewPager vp;
+    List<Clip> clipAll;
+    List<Clip> clipBookmark;
+    Frag_Clip fragAll;
+    Frag_Clip fragBookmark;
+
+    protected MainActivity(Parcel in) {
+        TAG = in.readString();
+        isSelected = in.readByte() != 0;
+        currentPage = in.readInt();
+        intent = in.readParcelable(Intent.class.getClassLoader());
+        clipAll = in.createTypedArrayList(Clip.CREATOR);
+        clipBookmark = in.createTypedArrayList(Clip.CREATOR);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,6 +193,16 @@ public class MainActivity extends AppCompatActivity implements Parcelable {
 
         Log.e(TAG, "updateAdapter: " + currentPage);
     }
+    void updateAdapter(int page){
+
+        if(page == 1 && fragAll != null)
+            fragAll.updateAdapter();
+
+        if(page == 2 && fragBookmark != null)
+            fragBookmark.updateAdapter();
+    }
+
+
     public void callViewPager() {
         vp.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         tabLayout.setupWithViewPager(vp);

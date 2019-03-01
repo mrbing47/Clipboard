@@ -112,7 +112,7 @@ public class BookmarkActivity extends AppCompatActivity {
     public void callAdapter() {
         rvClipBoard.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         clipList = ClipApplication.getClipDb().getClipDao().getBookmarked();
-        clipAdaptor = new ClipAdaptor(clipList, this);
+        clipAdaptor = new ClipAdaptor(clipList, this, null);
         rvClipBoard.setAdapter(clipAdaptor);
     }
 }

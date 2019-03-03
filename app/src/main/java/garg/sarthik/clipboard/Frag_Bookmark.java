@@ -13,13 +13,13 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-public class Frag_Clip extends Fragment {
+public class Frag_Bookmark extends Fragment {
 
     public static final String TAG = "Fragment";
     List<Clip> clipList;
     RecyclerView rvClipBoard;
     ClipAdaptor clipAdaptor;
-    FragmentUpdateBookmark fragmentUpdateBookmark;
+    FragmentUpdateAll fragmentUpdateAll;
 
     @Nullable
     @Override
@@ -29,35 +29,34 @@ public class Frag_Clip extends Fragment {
         rvClipBoard = view.findViewById(R.id.rvClipBoard);
         callAdapter();
 
-
         return view;
     }
 
     private void callAdapter() {
-        //  rvClipBoard.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        // rvClipBoard.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         rvClipBoard.setLayoutManager(new LinearLayoutManager(getContext()));
-        clipList = ClipApplication.getClipDb().getClipDao().getAll();
+        clipList = ClipApplication.getClipDb().getClipDao().getBookmarked();
         clipAdaptor = new ClipAdaptor(clipList, getContext(), this);
         rvClipBoard.setAdapter(clipAdaptor);
     }
 
-    void update() {
+    public void update() {
         callAdapter();
     }
 
     public void updateOther() {
-        fragmentUpdateBookmark.updateAdapterBookmark();
+        fragmentUpdateAll.updateAdapterAll();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof FragmentUpdateBookmark) {
-            fragmentUpdateBookmark = (FragmentUpdateBookmark) context;
+        if (context instanceof FragmentUpdateAll) {
+            fragmentUpdateAll = (FragmentUpdateAll) context;
         }
     }
 
-    public interface FragmentUpdateBookmark {
-        void updateAdapterBookmark();
+    public interface FragmentUpdateAll {
+        void updateAdapterAll();
     }
 }

@@ -15,6 +15,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
@@ -23,14 +24,13 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
     private static final String TAG = "Clip Adapter";
     private ClipboardManager clipboardManager;
     private ClipData clipData;
-
-    private MainActivity ma;
+    private Object object;
     private List<Clip> clipList;
     private Context context;
 
-    public ClipAdaptor(List<Clip> clipList, Context context, MainActivity ma) {
-        //Collections.reverse(clipList);
-        this.ma = ma;
+    public ClipAdaptor(List<Clip> clipList, Context context, Object object) {
+        Collections.reverse(clipList);
+        this.object = object;
         this.clipList = clipList;
         this.context = context;
         clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
@@ -46,26 +46,30 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
 
-        boolean isChecked = false;
-        if (clipList.get(i).getBookmarked() == 1) {
-            isChecked = true;
+        final int position = viewHolder.getAdapterPosition();
+        boolean isBookmarked = false;
+        if (clipList.get(position).getBookmarked() == 1) {
+            isBookmarked = true;
         }
+        boolean isSelected = clipList.get(position).isChecked();
 
-        if (clipList.get(i).getContent().length() <= 256)
-            viewHolder.tvClipContent.setText(clipList.get(i).getContent());
+        if (clipList.get(position).getContent().length() <= 256)
+            viewHolder.tvClipContent.setText(clipList.get(position).getContent());
         else {
-            String txt = clipList.get(i).getContent().substring(0, 253) + "...";
+            String txt = clipList.get(position).getContent().substring(0, 253) + "...";
             viewHolder.tvClipContent.setText(txt);
             Log.e(TAG, "onBindViewHolder: " + txt);
         }
 
-        viewHolder.tvClipDate.setText(clipList.get(i).getDate());
-        viewHolder.cbItemBookmarked.setChecked(isChecked);
+        viewHolder.tvClipDate.setText(clipList.get(position).getDate());
+        viewHolder.cbItemBookmarked.setChecked(isBookmarked);
+        viewHolder.cbItemSelected.setChecked(isSelected);
+
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clipData = ClipData.newPlainText("adaptor", clipList.get(i).getContent());
+                clipData = ClipData.newPlainText("adaptor", clipList.get(position).getContent());
                 clipboardManager.setPrimaryClip(clipData);
 
                 Toast.makeText(context, "Added to Clipboard", Toast.LENGTH_SHORT).show();
@@ -74,10 +78,10 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
         viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Log.e("Focus", "onLongClick: " + clipList.get(i).getBookmarked());
+                Log.e("Focus", "onLongClick: " + clipList.get(position).getBookmarked());
                 context.startActivity(new Intent(context, EditActivity.class)
-                        .putExtra("clip", clipList.get(i))
-                        .putExtra("bookmark", clipList.get(i).getBookmarked()));
+                        .putExtra("clip", clipList.get(position))
+                        .putExtra("bookmark", clipList.get(position).getBookmarked()));
                 return true;
             }
         });
@@ -85,17 +89,23 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
         viewHolder.cbItemSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                clipList.get(i).setChecked(isChecked);
+                clipList.get(position).setChecked(isChecked);
             }
         });
         viewHolder.cbItemBookmarked.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 int checked = isChecked ? 1 : 0;
-                clipList.get(i).setBookmarked(checked);
-                if (ma != null)
-                    ma.updateAdapter(1);
-                ClipApplication.getClipDb().getClipDao().updateClip(clipList.get(i));
+                clipList.get(position).setBookmarked(checked);
+                ClipApplication.getClipDb().getClipDao().updateClip(clipList.get(position));
+                if (object instanceof Frag_Clip) {
+                    ((Frag_Clip) object).update();
+                    ((Frag_Clip) object).updateOther();
+
+                } else {
+                    ((Frag_Bookmark) object).update();
+                    ((Frag_Bookmark) object).updateOther();
+                }
             }
         });
 

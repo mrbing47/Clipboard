@@ -46,75 +46,88 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
 
+        //getAdapterPosition gives the exact position for the adapter
         final int position = viewHolder.getAdapterPosition();
-        boolean isBookmarked = false;
-        if (clipList.get(position).getBookmarked() == 1) {
-            isBookmarked = true;
+
+        {//This block sets the state of the checkbox
+
+            boolean isBookmarked = false;
+            if (clipList.get(position).getBookmarked() == 1) {
+                isBookmarked = true;
+            }
+            viewHolder.cbItemBookmarked.setChecked(isBookmarked);
         }
         boolean isSelected = clipList.get(position).isChecked();
-
-        if (clipList.get(position).getContent().length() <= 256)
-            viewHolder.tvClipContent.setText(clipList.get(position).getContent());
-        else {
-            String txt = clipList.get(position).getContent().substring(0, 253) + "...";
-            viewHolder.tvClipContent.setText(txt);
-            Log.e(TAG, "onBindViewHolder: " + txt);
-        }
-
-        viewHolder.tvClipDate.setText(clipList.get(position).getDate());
-        viewHolder.cbItemBookmarked.setChecked(isBookmarked);
         viewHolder.cbItemSelected.setChecked(isSelected);
 
 
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clipData = ClipData.newPlainText("adaptor", clipList.get(position).getContent());
-                clipboardManager.setPrimaryClip(clipData);
+        {//This block sets the content and date of the clip in the Clip Layout
 
-                Toast.makeText(context, "Added to Clipboard", Toast.LENGTH_SHORT).show();
+            if (clipList.get(position).getContent().length() <= 256)
+                viewHolder.tvClipContent.setText(clipList.get(position).getContent());
+            else {
+                String txt = clipList.get(position).getContent().substring(0, 253) + "...";
+                viewHolder.tvClipContent.setText(txt);
+                Log.e(TAG, "onBindViewHolder: " + txt);
             }
-        });
-        viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Log.e("Focus", "onLongClick: " + clipList.get(position).getBookmarked());
-                context.startActivity(new Intent(context, EditActivity.class)
-                        .putExtra("clip", clipList.get(position))
-                        .putExtra("bookmark", clipList.get(position).getBookmarked()));
-                return true;
-            }
-        });
 
-        viewHolder.cbItemSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                clipList.get(position).setChecked(isChecked);
-                if (object instanceof Frag_Clip) {
-                    ((Frag_Clip) object).sendClips();
+            viewHolder.tvClipDate.setText(clipList.get(position).getDate());
+        }
 
-                } else {
-                    ((Frag_Bookmark) object).sendClips();
+
+        {//This block handles all the listeners app needs
+
+            //This listener starts EditActivity to edit the clip content
+            viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Log.e("Focus", "onLongClick: " + clipList.get(position).getBookmarked());
+                    context.startActivity(new Intent(context, EditActivity.class)
+                            .putExtra("clip", clipList.get(position))
+                            .putExtra("bookmark", clipList.get(position).getBookmarked()));
+                    return true;
                 }
-            }
-        });
-        viewHolder.cbItemBookmarked.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (buttonView.isPressed()) {
-                    int checked = buttonView.isChecked() ? 1 : 0;
-                    Log.e(TAG, "onCheckedChanged: " + clipList.get(position).getContent());
-                    clipList.get(position).setBookmarked(checked);
-                    ClipApplication.getClipDb().getClipDao().updateClip(clipList.get(position));
-                    if (object instanceof Frag_Clip) {
-                        ((Frag_Clip) object).updateOther();
+            });
 
-                    } else {
-                        ((Frag_Bookmark) object).update();
+            //This listener adds the clip to the clipboard
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clipData = ClipData.newPlainText("adaptor", clipList.get(position).getContent());
+                    clipboardManager.setPrimaryClip(clipData);
+
+                    Toast.makeText(context, "Added to Clipboard", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            //This listener handles the click when the user selects the clip
+            viewHolder.cbItemSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (buttonView.isPressed())
+                        clipList.get(position).setChecked(isChecked);
+                }
+            });
+
+            //This listener handles the click when the user bookmarks the clip
+            viewHolder.cbItemBookmarked.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (buttonView.isPressed()) {
+                        int checked = buttonView.isChecked() ? 1 : 0;
+                        Log.e(TAG, "onCheckedChanged: " + clipList.get(position).getContent());
+                        clipList.get(position).setBookmarked(checked);
+                        ClipApplication.getClipDb().getClipDao().updateClip(clipList.get(position));
+                        if (object instanceof Frag_Clip) {
+                            ((Frag_Clip) object).updateOther();
+
+                        } else {
+                            ((Frag_Bookmark) object).update();
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
 
     }
 

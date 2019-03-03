@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements Frag_Bookmark.FragmentUpdateAll, Frag_Clip.FragmentUpdateBookmark {
@@ -33,8 +34,8 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
 
     @Override
     protected void onStart() {
-        if (fragAll != null)
-            updateAdapterAll();
+        if (fragAll != null && fragBookmark != null)
+            updateBoth();
 
         super.onStart();
     }
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        clipAll = new ArrayList<>();
         toolbar = findViewById(R.id.toolbarMain);
         setSupportActionBar(toolbar);
 
@@ -95,8 +97,18 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
                         .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                int current = vp.getCurrentItem();
+                                Log.e(TAG, "onClick: " + current);
+
+                                if(current == 0){
+                                    clipAll = fragAll.send();
+                                }else{
+                                    clipAll = fragBookmark.send();
+                                }
+
                                 boolean isSelected = false;
                                 boolean isBookmarked = false;
+
                                 for (Clip clip : clipAll) {
                                     if (clip.isChecked()) {
                                         isSelected = true;
@@ -177,18 +189,8 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
     }
 
     @Override
-    public void sendClipsFromBookmark(List<Clip> clipList) {
-        clipAll = clipList;
-    }
-
-    @Override
     public void updateAdapterBookmark() {
         fragBookmark.update();
-    }
-
-    @Override
-    public void sendClipsFromAll(List<Clip> clipList) {
-        clipAll = clipList;
     }
 
     @Override

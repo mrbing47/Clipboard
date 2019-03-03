@@ -15,7 +15,6 @@ import java.util.List;
 
 public class Frag_Bookmark extends Fragment {
 
-    public static final String TAG = "Fragment";
     List<Clip> clipList;
     RecyclerView rvClipBoard;
     ClipAdaptor clipAdaptor;
@@ -34,7 +33,6 @@ public class Frag_Bookmark extends Fragment {
 
     private void callAdapter() {
         rvClipBoard.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-//        rvClipBoard.setLayoutManager(new LinearLayoutManager(getContext()));
         clipList = ClipApplication.getClipDb().getClipDao().getBookmarked();
         clipAdaptor = new ClipAdaptor(clipList, getContext(), this);
         rvClipBoard.setAdapter(clipAdaptor);
@@ -44,12 +42,8 @@ public class Frag_Bookmark extends Fragment {
         callAdapter();
     }
 
-    public void sendClips() {
-        fragmentUpdateAll.sendClipsFromBookmark(clipList);
-    }
-
-    public void updateOther() {
-        fragmentUpdateAll.updateAdapterAll();
+    public List<Clip> send() {
+        return clipList;
     }
 
     @Override
@@ -62,7 +56,5 @@ public class Frag_Bookmark extends Fragment {
 
     public interface FragmentUpdateAll {
         void updateAdapterAll();
-
-        void sendClipsFromBookmark(List<Clip> clipList);
     }
 }

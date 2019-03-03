@@ -10,18 +10,18 @@ import garg.sarthik.clipboard.db.ClipDb;
 
 public class ClipApplication extends Application {
 
+    final static Migration migrationUpdate = new Migration(2, 3) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+
+        }
+    };
     static ClipDb clipDb;
 
     public static ClipDb getClipDb() {
         return clipDb;
     }
 
-    final static Migration migrationUpdate = new Migration(2,3) {
-        @Override
-        public void migrate(@NonNull SupportSQLiteDatabase database) {
-
-        }
-    };
     @Override
     public void onCreate() {
         super.onCreate();

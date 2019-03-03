@@ -90,6 +90,12 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 clipList.get(position).setChecked(isChecked);
+                if (object instanceof Frag_Clip) {
+                    ((Frag_Clip) object).sendClips();
+
+                } else {
+                    ((Frag_Bookmark) object).sendClips();
+                }
             }
         });
         viewHolder.cbItemBookmarked.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -105,7 +111,6 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
 
                     } else {
                         ((Frag_Bookmark) object).update();
-                        ((Frag_Bookmark) object).updateOther();
                     }
                 }
             }

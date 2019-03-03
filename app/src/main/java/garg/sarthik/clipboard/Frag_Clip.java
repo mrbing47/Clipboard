@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -33,7 +32,7 @@ public class Frag_Clip extends Fragment {
     }
 
     private void callAdapter() {
-          rvClipBoard.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        rvClipBoard.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 //        rvClipBoard.setLayoutManager(new LinearLayoutManager(getContext()));
         clipList = ClipApplication.getClipDb().getClipDao().getAll();
         clipAdaptor = new ClipAdaptor(clipList, getContext(), this);
@@ -42,6 +41,10 @@ public class Frag_Clip extends Fragment {
 
     void update() {
         callAdapter();
+    }
+
+    void sendClips() {
+        fragmentUpdateBookmark.sendClipsFromAll(clipList);
     }
 
     public void updateOther() {
@@ -58,5 +61,7 @@ public class Frag_Clip extends Fragment {
 
     public interface FragmentUpdateBookmark {
         void updateAdapterBookmark();
+
+        void sendClipsFromAll(List<Clip> clipList);
     }
 }

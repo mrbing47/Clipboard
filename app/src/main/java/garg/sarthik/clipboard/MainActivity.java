@@ -12,27 +12,22 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements Frag_Bookmark.FragmentUpdateAll, Frag_Clip.FragmentUpdateBookmark {
 
     public String TAG = "MainActivity";
-    RecyclerView rvClipBoard;
     Toolbar toolbar;
-    int currentPage = 1;
     Intent intent;
     TabLayout tabLayout;
     ViewPager vp;
     List<Clip> clipAll;
-    List<Clip> clipBookmark;
     Frag_Clip fragAll;
     Frag_Bookmark fragBookmark;
 
@@ -94,10 +89,6 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
 
                 return true;
             }
-            case R.id.miBookmark: {
-                startActivity(new Intent(this, BookmarkActivity.class));
-                return true;
-            }
             case R.id.miDelete: {
                 new AlertDialog.Builder(this)
                         .setTitle("DO YOU WANT TO DELETE THE SELECTED CLIP(S)?")
@@ -142,8 +133,7 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
                         .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                clipAll = ClipApplication.getClipDb().getClipDao().getAll();
-                                deleteAll(clipAll);
+                                deleteAll();
                                 updateBoth();
                                 Toast.makeText(MainActivity.this, "RIP to all those clips", Toast.LENGTH_SHORT).show();
                             }
@@ -164,7 +154,8 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
 
     }
 
-    public void deleteAll(List<Clip> clipList) {
+    public void deleteAll() {
+        List<Clip> clipList = ClipApplication.getClipDb().getClipDao().getAll();
         for (Clip clip : clipList)
             ClipApplication.getClipDb().getClipDao().deleteClip(clip);
     }
@@ -186,8 +177,26 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
     }
 
     @Override
+    public void sendClipsFromBookmark(List<Clip> clipList) {
+        clipAll = clipList;
+    }
+
+    @Override
     public void updateAdapterBookmark() {
         fragBookmark.update();
+    }
+
+    @Override
+    public void sendClipsFromAll(List<Clip> clipList) {
+        clipAll = clipList;
+    }
+
+    @Override
+    protected void onStop() {
+        Log.e(TAG, "onDestroy: 1");
+        super.onStop();
+        Log.e(TAG, "onDestroy: 2");
+
     }
 
     class MyPagerAdapter extends FragmentPagerAdapter {
@@ -229,5 +238,4 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
             return 2;
         }
     }
-
 }

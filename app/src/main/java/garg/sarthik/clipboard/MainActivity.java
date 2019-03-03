@@ -100,9 +100,9 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
                                 int current = vp.getCurrentItem();
                                 Log.e(TAG, "onClick: " + current);
 
-                                if(current == 0){
+                                if (current == 0) {
                                     clipAll = fragAll.send();
-                                }else{
+                                } else {
                                     clipAll = fragBookmark.send();
                                 }
 

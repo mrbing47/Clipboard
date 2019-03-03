@@ -42,6 +42,10 @@ public class Frag_Bookmark extends Fragment {
         callAdapter();
     }
 
+    public void updateOther(){
+     fragmentUpdateAll.updateAdapterAll();
+    }
+
     public List<Clip> send() {
         return clipList;
     }

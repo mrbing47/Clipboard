@@ -123,6 +123,7 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
 
                         } else {
                             ((Frag_Bookmark) object).update();
+                            ((Frag_Bookmark) object).updateOther();
                         }
                     }
                 }

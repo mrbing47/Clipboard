@@ -38,6 +38,9 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
 
     @Override
     protected void onStart() {
+        if (fragAll != null)
+            updateAdapterAll();
+
         super.onStart();
     }
 
@@ -48,9 +51,6 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
 
         toolbar = findViewById(R.id.toolbarMain);
         setSupportActionBar(toolbar);
-
-        fragAll = new Frag_Clip();
-        fragBookmark = new Frag_Bookmark();
 
         vp = findViewById(R.id.vpFrags);
         tabLayout = findViewById(R.id.tabLayout);
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
                         .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
+                                clipAll = ClipApplication.getClipDb().getClipDao().getAll();
                                 deleteAll(clipAll);
                                 updateBoth();
                                 Toast.makeText(MainActivity.this, "RIP to all those clips", Toast.LENGTH_SHORT).show();
@@ -214,12 +214,10 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
         public Fragment getItem(int i) {
             switch (i) {
                 case 0:
-                    clipAll = ClipApplication.getClipDb().getClipDao().getAll();
-                    Collections.reverse(clipAll);
+                    fragAll = new Frag_Clip();
                     return fragAll;
                 case 1:
-                    clipBookmark = ClipApplication.getClipDb().getClipDao().getBookmarked();
-                    Collections.reverse(clipBookmark);
+                    fragBookmark = new Frag_Bookmark();
                     return fragBookmark;
                 default:
                     return null;

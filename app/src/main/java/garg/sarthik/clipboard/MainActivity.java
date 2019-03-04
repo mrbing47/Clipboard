@@ -95,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
             }
             case R.id.miSearch: {
 
-
                 int current = vp.getCurrentItem();
                 Log.e(TAG, "onClick: " + current);
 

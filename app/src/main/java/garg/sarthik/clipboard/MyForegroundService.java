@@ -37,6 +37,10 @@ public class MyForegroundService extends Service implements ClipboardManager.OnP
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        if (intent.hasExtra("KEY")) {
+            stopService();
+        }
+
         clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         clipboardManager.addPrimaryClipChangedListener(this);
 
@@ -57,12 +61,7 @@ public class MyForegroundService extends Service implements ClipboardManager.OnP
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent notificationIntent = new Intent(this,MainActivity.class);
-        PendingIntent pIntent = PendingIntent.getActivity(this,47,notificationIntent,PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-        if (intent.hasExtra("KEY")) {
-            stopService();
-        }
+        PendingIntent pIntent = PendingIntent.getActivity(this,47,notificationIntent,PendingIntent.FLAG_CANCEL_CURRENT);
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentIntent(pIntent)

@@ -120,8 +120,8 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
                         ClipApplication.getClipDb().getClipDao().updateClip(clipList.get(position));
                         if (object instanceof Frag_Clip) {
                             ((Frag_Clip) object).updateOther();
-
-                        } else {
+                        }
+                        if (object instanceof Frag_Bookmark) {
                             ((Frag_Bookmark) object).update();
                             ((Frag_Bookmark) object).updateOther();
                         }

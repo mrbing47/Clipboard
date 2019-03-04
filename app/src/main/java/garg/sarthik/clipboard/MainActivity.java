@@ -34,8 +34,10 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
 
     @Override
     protected void onStart() {
-        if (fragAll != null && fragBookmark != null)
-            updateBoth();
+        if (fragAll != null)
+            updateAdapterAll();
+        if(fragBookmark != null)
+            updateAdapterBookmark();
 
         super.onStart();
     }
@@ -88,6 +90,20 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
                     Toast.makeText(MainActivity.this, "Fallback", Toast.LENGTH_SHORT).show();
                 } else
                     Toast.makeText(MainActivity.this, "I know the meaning of Stop", Toast.LENGTH_SHORT).show();
+
+                return true;
+            }
+            case R.id.miSearch: {
+
+
+                int current = vp.getCurrentItem();
+                Log.e(TAG, "onClick: " + current);
+
+                if (current == 0) {
+                    startActivity(new Intent(MainActivity.this, SearchActivity.class).putExtra("content", "all"));
+                } else {
+                    startActivity(new Intent(MainActivity.this, SearchActivity.class).putExtra("content", "bookmark"));
+                }
 
                 return true;
             }
@@ -185,12 +201,14 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
 
     @Override
     public void updateAdapterAll() {
-        fragAll.update();
+        if (fragAll != null)
+            fragAll.update();
     }
 
     @Override
     public void updateAdapterBookmark() {
-        fragBookmark.update();
+        if (fragBookmark != null)
+            fragBookmark.update();
     }
 
     @Override

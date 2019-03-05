@@ -37,7 +37,6 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        Toast.makeText(this, "I hope you'll find what you are looking for :)", Toast.LENGTH_SHORT).show();
         btnSearch = findViewById(R.id.btnSearch);
         etSearch = findViewById(R.id.etSearch);
         rvClipBoard = findViewById(R.id.rvSearch);
@@ -79,12 +78,21 @@ public class SearchActivity extends AppCompatActivity {
     public void search() {
 
         String content;
+        boolean isFound = false;
         resultClips = new ArrayList<>();
         for (Clip clip : clipList) {
             content = clip.getContent();
-            if (Pattern.compile(Pattern.quote(searchtxt), Pattern.CASE_INSENSITIVE).matcher(content).find())
+            if (Pattern.compile(Pattern.quote(searchtxt), Pattern.CASE_INSENSITIVE).matcher(content).find()) {
                 resultClips.add(clip);
+                isFound = true;
+            }
         }
+
+        if(!isFound)
+            Toast.makeText(this, "No Clip(s) Found", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(this, "I hope you found what you were looking for", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override

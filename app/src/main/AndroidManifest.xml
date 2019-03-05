@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="garg.sarthik.clipboard">
 
+
     <application
         android:name=".ClipApplication"
         android:allowBackup="true"
@@ -12,8 +13,10 @@
         android:theme="@style/AppTheme">
         <activity android:name=".SearchActivity"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".EditActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".EditActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

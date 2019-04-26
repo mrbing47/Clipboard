@@ -6,12 +6,11 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="4dp"
+        card_view:cardBackgroundColor="@color/item_background"
+        card_view:cardCornerRadius="4dp"
         card_view:cardElevation="8dp">
 
         <LinearLayout
@@ -34,7 +33,7 @@
                     android:id="@+id/cbItemBookmarked"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:button="@drawable/custom_checkbox"/>
+                    android:button="@drawable/custom_checkbox" />
             </LinearLayout>
 
             <TextView

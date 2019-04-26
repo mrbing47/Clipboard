@@ -32,12 +32,24 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
     Frag_Clip fragAll;
     Frag_Bookmark fragBookmark;
 
+    Menu menu;
+
     @Override
     protected void onStart() {
         if (fragAll != null)
             updateAdapterAll();
-        if(fragBookmark != null)
+        if (fragBookmark != null)
             updateAdapterBookmark();
+
+        if (menu != null) {
+            if (Statics.isListening) {
+                menu.findItem(R.id.miStart).setVisible(false);
+                menu.findItem(R.id.miStop).setVisible(true);
+            } else {
+                menu.findItem(R.id.miStart).setVisible(true);
+                menu.findItem(R.id.miStop).setVisible(false);
+            }
+        }
 
         super.onStart();
     }
@@ -58,8 +70,21 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+        Statics.menu = menu;
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        if (menu != null) {
+            if (Statics.isListening) {
+                menu.findItem(R.id.miStart).setVisible(false);
+                menu.findItem(R.id.miStop).setVisible(true);
+            } else {
+                menu.findItem(R.id.miStart).setVisible(true);
+                menu.findItem(R.id.miStop).setVisible(false);
+            }
+        }
+
         return true;
     }
 
@@ -68,26 +93,33 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
 
         switch (item.getItemId()) {
             case R.id.miStart: {
-                if (!MyForegroundService.isListening) {
+                if (!Statics.isListening) {
                     intent = new Intent(MainActivity.this, MyForegroundService.class);
                     ContextCompat.startForegroundService(MainActivity.this, intent);
-                    MyForegroundService.isListening = true;
-                    Log.e(TAG, "onClick: btnAdd" + MyForegroundService.isListening);
+                    Statics.isListening = true;
+                    Log.e(TAG, "onClick: btnAdd" + Statics.isListening);
                     Toast.makeText(MainActivity.this, "Go Go Go", Toast.LENGTH_SHORT).show();
+
+                    menu.findItem(R.id.miStart).setVisible(false);
+                    menu.findItem(R.id.miStop).setVisible(true);
                 } else
                     Toast.makeText(MainActivity.this, "Check your notifications", Toast.LENGTH_SHORT).show();
 
                 return true;
             }
             case R.id.miStop: {
-                Log.e(TAG, "onClick: Entering btnRemove, isListening Value = " + MyForegroundService.isListening);
-                if (MyForegroundService.isListening) {
+                Log.e(TAG, "onClick: Entering btnRemove, isListening Value = " + Statics.isListening);
+                if (Statics.isListening) {
                     Log.e(TAG, "onClick: btnRemove");
                     intent = new Intent(MainActivity.this, MyForegroundService.class);
                     intent.putExtra("KEY", true);
                     ContextCompat.startForegroundService(MainActivity.this, intent);
-                    MyForegroundService.isListening = false;
+                    Statics.isListening = false;
                     Toast.makeText(MainActivity.this, "Fallback", Toast.LENGTH_SHORT).show();
+
+                    menu.findItem(R.id.miStart).setVisible(true);
+                    menu.findItem(R.id.miStop).setVisible(false);
+
                 } else
                     Toast.makeText(MainActivity.this, "I know the meaning of Stop", Toast.LENGTH_SHORT).show();
 

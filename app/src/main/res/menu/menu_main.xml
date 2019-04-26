@@ -4,25 +4,25 @@
 
     <item
         android:id="@+id/miStart"
-        android:icon="@drawable/ic_add_white"
+        android:icon="@drawable/ic_flash"
         android:title="Start"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/miStop"
-        android:icon="@drawable/ic_cancel_white"
+        android:icon="@drawable/ic_flash_off"
         android:title="Stop"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/miSearch"
+        android:icon="@drawable/ic_search_black"
+        android:title="Search"
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_more"
         android:icon="@drawable/ic_more_vert_black_24dp"
         android:title=""
         app:showAsAction="always">
         <menu>
-            <item
-                android:id="@+id/miSearch"
-                android:icon="@drawable/ic_search_black"
-                android:title="Search"
-                app:showAsAction="ifRoom" />
 
             <item
                 android:id="@+id/miDelete"

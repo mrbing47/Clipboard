@@ -17,13 +17,11 @@ import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.List;
 
 
 public class MyForegroundService extends Service implements ClipboardManager.OnPrimaryClipChangedListener {
 
     public static final String CHANNEL_ID = "420YOLO";
-    public static boolean isListening = false;
     public final String TAG = "Service";
     ClipboardManager clipboardManager;
     NotificationManager notificationManager;
@@ -60,8 +58,8 @@ public class MyForegroundService extends Service implements ClipboardManager.OnP
                 stopForeground,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Intent notificationIntent = new Intent(this,MainActivity.class);
-        PendingIntent pIntent = PendingIntent.getActivity(this,47,notificationIntent,PendingIntent.FLAG_CANCEL_CURRENT);
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent pIntent = PendingIntent.getActivity(this, 47, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentIntent(pIntent)
@@ -109,18 +107,29 @@ public class MyForegroundService extends Service implements ClipboardManager.OnP
     }
 
     public void stopService() {
-        Log.e(TAG, "onStartCommand: Removing Intent");
+        Statics.isListening = false;
+
+        if (Statics.menu != null) {
+            if (Statics.isListening) {
+                Statics.menu.findItem(R.id.miStart).setVisible(false);
+                Statics.menu.findItem(R.id.miStop).setVisible(true);
+            } else {
+                Statics.menu.findItem(R.id.miStart).setVisible(true);
+                Statics.menu.findItem(R.id.miStop).setVisible(false);
+            }
+        }
+
+        Log.e(TAG, "onStartCommand: Removing Intent \n isListening = " + Statics.isListening);
         clipboardManager.removePrimaryClipChangedListener(this);
-        isListening = false;
         stopForeground(true);
         stopSelf();
     }
 
     @Override
     public void onDestroy() {
-        Log.e(TAG, "onDestroy: ");
+        Statics.isListening = false;
+        Log.e(TAG, "onDestroy: \n isListening = " + Statics.isListening);
         clipboardManager.removePrimaryClipChangedListener(this);
-        isListening = false;
         super.onDestroy();
     }
 }

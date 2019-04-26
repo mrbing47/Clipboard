@@ -4,8 +4,10 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +29,7 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
     private Object object;
     private List<Clip> clipList;
     private Context context;
+    private Vibrator vibrator;
 
     public ClipAdaptor(List<Clip> clipList, Context context, Object object) {
         Collections.reverse(clipList);
@@ -34,6 +37,7 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
         this.clipList = clipList;
         this.context = context;
         clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         Log.e(TAG, "ClipAdaptor: ");
     }
 
@@ -43,11 +47,14 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
         return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_clipitem, viewGroup, false));
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
 
         //getAdapterPosition gives the exact position for the adapter
         final int position = viewHolder.getAdapterPosition();
+
+        String space = "";
 
         {//This block sets the state of the checkbox
 
@@ -59,6 +66,21 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
         }
         boolean isSelected = clipList.get(position).isChecked();
         viewHolder.cbItemSelected.setChecked(isSelected);
+
+        StaggeredGridLayoutManager.LayoutParams layout = (StaggeredGridLayoutManager.LayoutParams) viewHolder.itemView.getLayoutParams();
+
+
+//        if (position > 0) {
+//            if (span == 1) {
+//                space = "left  ";
+//            } else {
+//                space = "right  ";
+//            }
+//
+//
+//        }
+//        if(position == 0)
+//        Toast.makeText(context, ""+viewHolder.itemView.getTag(), Toast.LENGTH_SHORT).show();
 
 
         {//This block sets the content and date of the clip in the Clip Layout
@@ -81,10 +103,13 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
             viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
+
                     Log.e("Focus", "onLongClick: " + clipList.get(position).getBookmarked());
+
                     context.startActivity(new Intent(context, EditActivity.class)
                             .putExtra("clip", clipList.get(position))
                             .putExtra("bookmark", clipList.get(position).getBookmarked()));
+
                     return true;
                 }
             });
@@ -93,10 +118,14 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     clipData = ClipData.newPlainText("adaptor", clipList.get(position).getContent());
                     clipboardManager.setPrimaryClip(clipData);
 
                     Toast.makeText(context, "Added to Clipboard", Toast.LENGTH_SHORT).show();
+
+                    vibrator.vibrate(25);
+
                 }
             });
 
@@ -118,9 +147,11 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
                         Log.e(TAG, "onCheckedChanged: " + clipList.get(position).getContent());
                         clipList.get(position).setBookmarked(checked);
                         ClipApplication.getClipDb().getClipDao().updateClip(clipList.get(position));
+
                         if (object instanceof Frag_Clip) {
                             ((Frag_Clip) object).updateOther();
                         }
+
                         if (object instanceof Frag_Bookmark) {
                             ((Frag_Bookmark) object).update();
                             ((Frag_Bookmark) object).updateOther();

@@ -24,6 +24,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="8dp"
+        card_view:cardBackgroundColor="@color/item_background"
+        card_view:cardCornerRadius="4dp"
         card_view:cardElevation="8dp">
 
         <LinearLayout

@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
                 int current = vp.getCurrentItem();
                 Log.e(TAG, "onClick: " + current);
 
+                Statics.isSearchBordered = false;
                 if (current == 0) {
                     startActivity(new Intent(MainActivity.this, SearchActivity.class).putExtra("content", "all"));
                 } else {

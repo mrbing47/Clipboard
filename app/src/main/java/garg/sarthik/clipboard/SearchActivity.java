@@ -2,12 +2,15 @@ package garg.sarthik.clipboard;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.res.Resources;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -73,6 +76,10 @@ public class SearchActivity extends AppCompatActivity {
         rvClipBoard.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         clipAdaptor = new ClipAdaptor(resultClips, this, this);
         rvClipBoard.setAdapter(clipAdaptor);
+        if (!Statics.isSearchBordered) {
+            rvClipBoard.addItemDecoration(new SpaceItemDecoration(Statics.border));
+            Statics.isSearchBordered = true;
+        }
     }
 
     public void search() {
@@ -184,5 +191,59 @@ public class SearchActivity extends AppCompatActivity {
             ClipApplication.getClipDb().getClipDao().deleteClip(clip);
         }
         resultClips.clear();
+    }
+    public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+
+        private int space;
+
+        public SpaceItemDecoration(int space) {
+            this.space = space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            int position = parent.getChildAdapterPosition(view);
+            StaggeredGridLayoutManager.LayoutParams lp = (StaggeredGridLayoutManager.LayoutParams) view.getLayoutParams();
+            int spanIndex = lp.getSpanIndex();
+            int left;
+            int right;
+            int top;
+            int bottom;
+
+            float dip4 = space >> 1;
+            float dip8 = space;
+            Resources r = getResources();
+            float px4 = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    dip4,
+                    r.getDisplayMetrics()
+            );
+            float px8 = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    dip8,
+                    r.getDisplayMetrics()
+            );
+
+
+            if (position == 0 || position == 1) {
+                Log.e("Pos", "getItemOffsets: " + position);
+                top = (int) px8;
+                bottom = (int) px4;
+            } else {
+                Log.e("Pos", "getItemOffsets: " + position);
+                top = bottom = (int) px4;
+            }
+            if (spanIndex == 1) {
+                left = (int) px4;
+                right = (int) px8;
+            } else {
+                left = (int) px8;
+                right = (int) px4;
+            }
+
+            outRect.set(left, top, right, bottom);
+            Log.e("TAG", "getItemOffsets: " + spanIndex);
+
+        }
     }
 }

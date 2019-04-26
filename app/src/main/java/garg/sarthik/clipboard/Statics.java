@@ -9,4 +9,5 @@ public class Statics {
     public static final int border = 10;
     public static boolean isBookmarkBordered = false;
     public static boolean isClipBordered = false;
+    public static boolean isSearchBordered = false;
 }

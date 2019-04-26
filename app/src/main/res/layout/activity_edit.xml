@@ -18,7 +18,7 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/theme"
         app:title="Edit Clip"
-        app:titleTextColor="@color/text_color" />
+        app:titleTextColor="@color/title_color" />
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -37,6 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
+                android:textColor="@color/text_color"
                 android:padding="8dp"
                 android:textSize="12sp"/>
 
@@ -49,6 +50,7 @@
                 android:gravity="start"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
+                android:textColor="@color/text_color"
                 android:hint="Edit your clip here"
                 android:textSize="16sp" />
         </LinearLayout>

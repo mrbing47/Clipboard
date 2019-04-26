@@ -11,18 +11,20 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarMain"
-        app:titleTextColor="@color/text_color"
+        app:titleTextColor="@color/title_color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:fitsSystemWindows="true"
         android:minHeight="?attr/actionBarSize"
-        android:theme="@style/MyCustomTheme" />
+        android:theme="@style/MyCustomTheme"/>
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        card_view:cardBackgroundColor="@color/item_background"
+        card_view:cardCornerRadius="4dp"
         card_view:cardElevation="8dp">
 
         <LinearLayout
@@ -34,6 +36,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
+                android:textColor="@color/text_color"
                 android:hint="Search Clip Here..." />
 
             <ImageButton
@@ -42,7 +45,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/colorPrimaryDark"
-                android:src="@drawable/ic_search_white" />
+                android:src="@drawable/ic_search" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
 

@@ -19,7 +19,6 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -97,7 +96,7 @@ public class SearchActivity extends AppCompatActivity {
             }
         }
 
-        if(!isFound)
+        if (!isFound)
             Toast.makeText(this, "No Clip(s) Found", Toast.LENGTH_SHORT).show();
         else
             Toast.makeText(this, "I hope you found what you were looking for", Toast.LENGTH_SHORT).show();
@@ -124,7 +123,7 @@ public class SearchActivity extends AppCompatActivity {
 
                                 boolean isSelected = false;
                                 List<Clip> deleteClips = new ArrayList<>();
-                                copy(resultClips,deleteClips);
+                                copy(resultClips, deleteClips);
 
                                 try {
                                     for (Clip clip : deleteClips) {
@@ -140,8 +139,8 @@ public class SearchActivity extends AppCompatActivity {
                                         clipAdaptor.notifyDataSetChanged();
                                     } else
                                         Toast.makeText(SearchActivity.this, "Please select the victim first", Toast.LENGTH_SHORT).show();
-                                }catch (Exception e){
-                                    Log.e(TAG, "onClick: \n\n\n",e );
+                                } catch (Exception e) {
+                                    Log.e(TAG, "onClick: \n\n\n", e);
                                 }
                             }
                         })
@@ -183,8 +182,8 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
-    public void copy(List<Clip> src, List<Clip> dest){
-        for(Clip clip : src)
+    public void copy(List<Clip> src, List<Clip> dest) {
+        for (Clip clip : src)
             dest.add(clip);
     }
 
@@ -194,6 +193,7 @@ public class SearchActivity extends AppCompatActivity {
         }
         resultClips.clear();
     }
+
     public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
 
         private int space;

@@ -44,7 +44,7 @@ public class Frag_Clip extends Fragment {
         clipList = ClipApplication.getClipDb().getClipDao().getAll();
         clipAdaptor = new ClipAdaptor(clipList, getContext(), this);
         rvClipBoard.setAdapter(clipAdaptor);
-        if(!isBordered) {
+        if (!isBordered) {
             rvClipBoard.addItemDecoration(spaceItemDecoration);
             isBordered = true;
         }
@@ -105,7 +105,6 @@ public class Frag_Clip extends Fragment {
                     dip8,
                     r.getDisplayMetrics()
             );
-
 
 
             if (position == 0 || position == 1) {

@@ -41,7 +41,7 @@ public class EditActivity extends AppCompatActivity {
         if (getIntent() != null) {
 
             orgClip = getIntent().getParcelableExtra("clip");
-            bookmark = getIntent().getIntExtra("bookmark",0);
+            bookmark = getIntent().getIntExtra("bookmark", 0);
 
             orgTxt = orgClip.getContent();
             etClip.setText(orgTxt);
@@ -68,7 +68,7 @@ public class EditActivity extends AppCompatActivity {
             case R.id.miSave: {
                 modTxt = etClip.getText().toString().trim();
                 Clip clip = new Clip(modTxt, DateFormat.getDateTimeInstance().format(new Date()), bookmark);
-                Log.e(TAG, "onOptionsItemSelected: Bookmarked = " + bookmark );
+                Log.e(TAG, "onOptionsItemSelected: Bookmarked = " + bookmark);
                 if (!orgTxt.equals(modTxt)) {
                     ClipApplication.getClipDb().getClipDao().deleteClip(orgClip);
                     ClipApplication.getClipDb().getClipDao().insertClip(clip);

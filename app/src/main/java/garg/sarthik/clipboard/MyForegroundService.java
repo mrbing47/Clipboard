@@ -53,21 +53,21 @@ public class MyForegroundService extends Service implements ClipboardManager.OnP
 
         Intent stopForeground = new Intent(this, MyForegroundService.class);
         stopForeground.putExtra("KEY", true);
-        PendingIntent pi = PendingIntent.getService(this,
+        PendingIntent stopPendingIntent = PendingIntent.getService(this,
                 333,
                 stopForeground,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
-        PendingIntent pIntent = PendingIntent.getActivity(this, 47, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent launchPendingIntent = PendingIntent.getActivity(this, 47, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentIntent(pIntent)
+                .setContentIntent(launchPendingIntent)
                 .setSmallIcon(R.drawable.ic_dashboard)
                 .setContentTitle("Clipboard is Running")
                 .setContentText("Clipboard is looking for all the copied data")
                 .setAutoCancel(false)
-                .addAction(R.mipmap.ic_launcher, "Stop", pi)
+                .addAction(R.mipmap.ic_launcher, "Stop", stopPendingIntent)
                 .build();
 
         startForeground(420, notification);

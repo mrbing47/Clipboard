@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;

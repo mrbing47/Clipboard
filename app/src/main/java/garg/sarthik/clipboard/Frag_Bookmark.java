@@ -25,6 +25,8 @@ public class Frag_Bookmark extends Fragment {
     FragmentUpdateAll fragmentUpdateAll;
     SpaceItemDecoration spaceItemDecoration;
 
+    private boolean isBordered = false;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,9 +45,9 @@ public class Frag_Bookmark extends Fragment {
         clipList = ClipApplication.getClipDb().getClipDao().getBookmarked();
         clipAdaptor = new ClipAdaptor(clipList, getContext(), this);
         rvClipBoard.setAdapter(clipAdaptor);
-        if (!Statics.isBookmarkBordered) {
+        if (!isBordered) {
             rvClipBoard.addItemDecoration(spaceItemDecoration);
-            Statics.isBookmarkBordered = true;
+            isBordered = true;
         }
     }
 

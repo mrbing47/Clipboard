@@ -54,7 +54,6 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
         //getAdapterPosition gives the exact position for the adapter
         final int position = viewHolder.getAdapterPosition();
 
-        String space = "";
 
         {//This block sets the state of the checkbox
 
@@ -66,21 +65,6 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
         }
         boolean isSelected = clipList.get(position).isChecked();
         viewHolder.cbItemSelected.setChecked(isSelected);
-
-        StaggeredGridLayoutManager.LayoutParams layout = (StaggeredGridLayoutManager.LayoutParams) viewHolder.itemView.getLayoutParams();
-
-
-//        if (position > 0) {
-//            if (span == 1) {
-//                space = "left  ";
-//            } else {
-//                space = "right  ";
-//            }
-//
-//
-//        }
-//        if(position == 0)
-//        Toast.makeText(context, ""+viewHolder.itemView.getTag(), Toast.LENGTH_SHORT).show();
 
 
         {//This block sets the content and date of the clip in the Clip Layout

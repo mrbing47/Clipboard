@@ -1,61 +1,91 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:background="@color/background_color"
+    android:background="@color/item_background"
+    android:orientation="vertical"
     android:padding="@dimen/widget_margin">
 
-    <!--<android.support.v7.widget.CardView-->
-        <!--android:id="@+id/cardView"-->
-        <!--card_view:cardBackgroundColor="@color/item_background"-->
-        <!--card_view:cardCornerRadius="4dp"-->
-        <!--card_view:cardElevation="8dp"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="vertical">-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="YOUR RECENT CLIP :"
+            android:textColor="@color/title_color"
+            android:textStyle="bold" />
 
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
-
-                <!--<CheckBox-->
-                    <!--android:id="@+id/cbItemSelected"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="end"-->
-                    <!--android:layout_weight="1" />-->
-
-                <!--<CheckBox-->
-                    <!--android:id="@+id/cbItemBookmarked"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:button="@drawable/custom_checkbox" />-->
-            <!--</LinearLayout>-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tvClipContent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="Content"
-                android:textSize="16sp" />
+                android:layout_height="2dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@color/divider" />
+        </LinearLayout>
 
 
-            <TextView
-                android:id="@+id/tvClipDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:padding="4dp"
-                android:text="Date"
-                android:textSize="10sp" />
+        <TextView
+            android:id="@+id/tvWidgetContent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:text="Content"
+            android:textColor="@color/text_color"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvWidgetDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:gravity="end"
+            android:paddingRight="8dp"
+            android:text="Date"
+            android:textColor="@color/text_color"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/divider" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/btnWidgetStart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:src="@drawable/ic_flash" />
+
+        <ImageButton
+            android:id="@+id/btnWidgetStop"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:src="@drawable/ic_flash_off" />
+    </LinearLayout>
 
 
-        <!--</LinearLayout>-->
-    <!--</android.support.v7.widget.CardView>-->
-
-</RelativeLayout>
+</LinearLayout>

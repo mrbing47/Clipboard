@@ -41,6 +41,18 @@
                 android:padding="8dp"
                 android:textSize="12sp"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@color/divider" />
+            </LinearLayout>
+
             <EditText
                 android:id="@+id/etClip"
                 android:layout_width="match_parent"
@@ -48,8 +60,7 @@
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:gravity="start"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
+                android:padding="8dp"
                 android:textColor="@color/text_color"
                 android:hint="Edit your clip here"
                 android:textSize="16sp" />

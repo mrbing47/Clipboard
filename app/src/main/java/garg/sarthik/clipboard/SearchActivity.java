@@ -35,6 +35,8 @@ public class SearchActivity extends AppCompatActivity {
     private List<Clip> clipList;
     private List<Clip> resultClips;
 
+    private boolean isBordered = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,9 +78,9 @@ public class SearchActivity extends AppCompatActivity {
         rvClipBoard.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         clipAdaptor = new ClipAdaptor(resultClips, this, this);
         rvClipBoard.setAdapter(clipAdaptor);
-        if (!Statics.isSearchBordered) {
+        if (!isBordered) {
             rvClipBoard.addItemDecoration(new SpaceItemDecoration(Statics.border));
-            Statics.isSearchBordered = true;
+            isBordered = true;
         }
     }
 

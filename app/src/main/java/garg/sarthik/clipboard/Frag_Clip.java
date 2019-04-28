@@ -24,6 +24,8 @@ public class Frag_Clip extends Fragment {
     ClipAdaptor clipAdaptor;
     FragmentUpdateBookmark fragmentUpdateBookmark;
 
+    private boolean isBordered = false;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -42,9 +44,9 @@ public class Frag_Clip extends Fragment {
         clipList = ClipApplication.getClipDb().getClipDao().getAll();
         clipAdaptor = new ClipAdaptor(clipList, getContext(), this);
         rvClipBoard.setAdapter(clipAdaptor);
-        if(!Statics.isClipBordered) {
+        if(!isBordered) {
             rvClipBoard.addItemDecoration(spaceItemDecoration);
-            Statics.isClipBordered = true;
+            isBordered = true;
         }
     }
 

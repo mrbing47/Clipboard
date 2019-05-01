@@ -2,18 +2,31 @@
 <resources>
     <!--<color name="colorPrimary">#ffc107</color>-->
     <!--<color name="colorPrimaryDark">#ff8f00</color>-->
-    <!--<color name="colorAccent">#ff8f00</color>-->
+    <!--<color name="colorAccent">#ff8f00</color>#455a64-->
     <!--<color name="button_color">#ffc107</color>-->
     <!--<color name="text_color">#FFFFFF</color>-->
     <!--<color name="item_background">#F5F5F5</color>-->
     <!--<color name="background_color">#FF5722</color>-->
+
+    <!--Dark Theme->-->
     <color name="colorPrimary">#333333</color>
     <color name="colorPrimaryDark">#212121</color>
-    <color name="colorAccent">#455a64</color>
+    <color name="colorAccent">#f05020</color>
     <color name="title_color">#C0C0C0</color>
-    <color name="divider">#455a64</color>
+    <color name="divider">@color/colorAccent</color>
     <color name="button_color">#C0C0C0</color>
     <color name="text_color">#cfcfcf</color>
     <color name="item_background">#3f3f3f</color>
     <color name="background_color">#1a1a1a</color>
+
+    <!--Iron Man Theme->-->
+    <!--<color name="colorPrimaryDark">#760C10</color>-->
+    <!--<color name="colorPrimary">#D7bb2b</color>-->
+    <!--<color name="colorAccent">#760c10</color>-->
+    <!--<color name="title_color">#760c10</color>-->
+    <!--<color name="divider">@color/colorAccent</color>-->
+    <!--<color name="button_color">#760c10</color>-->
+    <!--<color name="text_color">#760c10</color>-->
+    <!--<color name="item_background">#D7BB2B</color>-->
+    <!--<color name="background_color">#760C10</color>-->
 </resources>

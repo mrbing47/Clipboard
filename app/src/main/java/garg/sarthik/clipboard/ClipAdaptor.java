@@ -61,9 +61,11 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
                 isBookmarked = true;
             }
             viewHolder.cbItemBookmarked.setChecked(isBookmarked);
+
+            boolean isSelected = clipList.get(position).isChecked();
+            viewHolder.cbItemSelected.setChecked(isSelected);
+
         }
-        boolean isSelected = clipList.get(position).isChecked();
-        viewHolder.cbItemSelected.setChecked(isSelected);
 
 
         {//This block sets the content and date of the clip in the Clip Layout
@@ -106,6 +108,8 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
                     clipboardManager.setPrimaryClip(clipData);
 
                     Toast.makeText(context, "Added to Clipboard", Toast.LENGTH_SHORT).show();
+
+                    Log.e(TAG, "onClick: "+clipList.get(position).getBookmarked());
 
                     vibrator.vibrate(25);
 

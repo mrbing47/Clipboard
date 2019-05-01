@@ -102,7 +102,6 @@ public class MyForegroundService extends Service implements ClipboardManager.OnP
             Log.e(TAG, "onPrimaryClipChanged: " + text);
         } catch (SQLiteConstraintException e) {
             Log.e(TAG, "addClip: ", e);
-            ClipApplication.getClipDb().getClipDao().updateClip(clip);
         }
     }
 

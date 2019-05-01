@@ -4,12 +4,12 @@
 
     <item
         android:id="@+id/miStart"
-        android:icon="@drawable/ic_flash"
+        android:icon="@drawable/ic_flash_white"
         android:title="Start"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/miStop"
-        android:icon="@drawable/ic_flash_off"
+        android:icon="@drawable/ic_flash_off_white"
         android:title="Stop"
         app:showAsAction="ifRoom" />
     <item

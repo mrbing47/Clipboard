@@ -41,14 +41,11 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
         if (fragBookmark != null)
             updateAdapterBookmark();
 
+        Statics.isChecked = false;
+        Statics.checkedCounter = 0;
+
         if (menu != null) {
-            if (Statics.isListening) {
-                menu.findItem(R.id.miStart).setVisible(false);
-                menu.findItem(R.id.miStop).setVisible(true);
-            } else {
-                menu.findItem(R.id.miStart).setVisible(true);
-                menu.findItem(R.id.miStop).setVisible(false);
-            }
+            Statics.swapMenu(this);
         }
 
         super.onStart();
@@ -76,15 +73,7 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
         if (menu != null) {
-            if (Statics.isListening) {
-                menu.findItem(R.id.miStart).setVisible(false);
-                menu.findItem(R.id.miStop).setVisible(true);
-            } else {
-                menu.findItem(R.id.miStart).setVisible(true);
-                menu.findItem(R.id.miStop).setVisible(false);
-            }
-            menu.findItem(R.id.miDelete).setVisible(false);
-            menu.findItem(R.id.miDeleteAll).setVisible(false);
+            Statics.swapMenu(this);
         }
 
         return true;

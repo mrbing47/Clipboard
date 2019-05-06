@@ -27,10 +27,15 @@ public class Frag_Clip extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.layout_rview, container, false);
-        rvClipBoard = view.findViewById(R.id.rvClipBoard);
-        callAdapter();
-
+        clipList = ClipApplication.getClipDb().getClipDao().getAll();
+        View view;
+        if(clipList.isEmpty())
+        view = inflater.inflate(R.layout.layout_noclip,container,false);
+        else {
+            view = inflater.inflate(R.layout.layout_rview, container, false);
+            rvClipBoard = view.findViewById(R.id.rvClipBoard);
+            callAdapter();
+        }
         return view;
     }
 

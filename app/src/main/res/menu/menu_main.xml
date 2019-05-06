@@ -16,13 +16,13 @@
         android:id="@+id/miSearch"
         android:icon="@drawable/ic_search"
         android:title="Search"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/action_more"
-        android:icon="@drawable/ic_more_vert_black_24dp"
-        android:title=""
-        app:showAsAction="always">
-        <menu>
+        app:showAsAction="ifRoom" />
+    <!--<item-->
+        <!--android:id="@+id/action_more"-->
+        <!--android:icon="@drawable/ic_more"-->
+        <!--android:title="More"-->
+        <!--app:showAsAction="always">-->
+        <!--<menu>-->
 
             <item
                 android:id="@+id/miDelete"
@@ -34,7 +34,7 @@
                 android:icon="@drawable/ic_delete_all_white"
                 android:title="Delete All"
                 app:showAsAction="ifRoom" />
-        </menu>
-    </item>
+        <!--</menu>-->
+    <!--</item>-->
 
 </menu>

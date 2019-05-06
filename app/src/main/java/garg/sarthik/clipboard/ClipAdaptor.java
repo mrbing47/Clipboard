@@ -109,7 +109,7 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
 
                     Toast.makeText(context, "Added to Clipboard", Toast.LENGTH_SHORT).show();
 
-                    Log.e(TAG, "onClick: "+clipList.get(position).getBookmarked());
+                    Log.e(TAG, "onClick: " + clipList.get(position).getBookmarked());
 
                     vibrator.vibrate(25);
 
@@ -120,8 +120,25 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
             viewHolder.cbItemSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (buttonView.isPressed())
+                    if (buttonView.isPressed()) {
                         clipList.get(position).setChecked(isChecked);
+                        if (isChecked) {
+
+                            if (Statics.checkedCounter == 0) {
+                                Statics.isChecked = true;
+                                Statics.swapMenu(context);
+                            }
+                            Statics.checkedCounter++;
+
+                        } else {
+                            Statics.checkedCounter--;
+                            if (Statics.checkedCounter == 0) {
+                                Statics.isChecked = false;
+                                Statics.swapMenu(context);
+                            }
+                        }
+                        Log.e(TAG, "onCheckedChanged: \nCOUNTER:" + Statics.checkedCounter);
+                    }
                 }
             });
 

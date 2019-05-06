@@ -83,6 +83,8 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
                 menu.findItem(R.id.miStart).setVisible(true);
                 menu.findItem(R.id.miStop).setVisible(false);
             }
+            menu.findItem(R.id.miDelete).setVisible(false);
+            menu.findItem(R.id.miDeleteAll).setVisible(false);
         }
 
         return true;

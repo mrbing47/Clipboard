@@ -11,9 +11,6 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.text.DateFormat;
-import java.util.Date;
-
 public class EditActivity extends AppCompatActivity {
 
     private static final String TAG = "Focus";
@@ -66,20 +63,24 @@ public class EditActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.miSave: {
+
                 modTxt = etClip.getText().toString().trim();
-                Clip clip = new Clip(modTxt, DateFormat.getDateTimeInstance().format(new Date()), bookmark);
+                Clip clip = new Clip(modTxt, orgClip.getDate(), bookmark);
                 Log.e(TAG, "onOptionsItemSelected: Bookmarked = " + bookmark);
                 if (!orgTxt.equals(modTxt)) {
+
                     ClipApplication.getClipDb().getClipDao().deleteClip(orgClip);
                     ClipApplication.getClipDb().getClipDao().insertClip(clip);
 
-                } else
-                    ClipApplication.getClipDb().getClipDao().updateClip(clip);
+                }
                 finish();
+                return true;
             }
 
             case R.id.miDiscard: {
+
                 finish();
+                return true;
             }
             default:
                 return super.onOptionsItemSelected(item);

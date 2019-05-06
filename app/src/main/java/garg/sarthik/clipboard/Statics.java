@@ -19,7 +19,7 @@ public class Statics {
 
     public static final int border = 10;
     public static boolean isListening = false;
-    public static String rvView;
+    public static String layout;
     public static Menu menu;
     public static int checkedCounter = 0;
 
@@ -52,7 +52,7 @@ public class Statics {
 
                 }
 
-                if (Statics.rvView.equals(Statics.gridView)) {
+                if (Statics.layout.equals(Statics.gridView)) {
                     menu.findItem(R.id.miGridView).setVisible(false);
                     menu.findItem(R.id.miListView).setVisible(true);
                 } else {
@@ -83,9 +83,9 @@ public class Statics {
     public static class SpaceItemDecoration extends RecyclerView.ItemDecoration {
 
         private int space;
-
         private List<Clip> clipList;
         private Context context;
+
         public SpaceItemDecoration(List<Clip> clipList, Context context) {
 
             this.space = border;
@@ -116,7 +116,7 @@ public class Statics {
             );
 
 
-            if (rvView.equals(Statics.gridView)) {
+            if (layout.equals(Statics.gridView)) {
 
                 StaggeredGridLayoutManager.LayoutParams lp = (StaggeredGridLayoutManager.LayoutParams) view.getLayoutParams();
                 int spanIndex = lp.getSpanIndex();

@@ -61,11 +61,11 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
 
         sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
 
-        if (sharedPreferences.contains("view")) {
-            Statics.rvView = sharedPreferences.getString("view", "grid");
-        } else
-            Statics.rvView = Statics.gridView;
 
+        if (sharedPreferences.contains("layout")) {
+            Statics.layout = sharedPreferences.getString("layout", "grid");
+        } else
+            Statics.layout = Statics.gridView;
 
         clipAll = new ArrayList<>();
         toolbar = findViewById(R.id.toolbarMain);
@@ -218,14 +218,14 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
                 return true;
             }
             case R.id.miGridView: {
-                Statics.rvView = Statics.gridView;
+                Statics.layout = Statics.gridView;
                 menu.findItem(R.id.miGridView).setVisible(false);
                 menu.findItem(R.id.miListView).setVisible(true);
                 updateBoth();
                 return true;
             }
             case R.id.miListView: {
-                Statics.rvView = Statics.listView;
+                Statics.layout = Statics.listView;
                 menu.findItem(R.id.miListView).setVisible(false);
                 menu.findItem(R.id.miGridView).setVisible(true);
                 updateBoth();
@@ -272,11 +272,8 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
         Log.e(TAG, "onDestroy: 1");
         super.onStop();
         Log.e(TAG, "onDestroy: 2");
-        SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putString("view", Statics.rvView);
-        editor.apply();
-
+        sharedPreferences.edit().putString("layout", Statics.layout).apply();
 
     }
 

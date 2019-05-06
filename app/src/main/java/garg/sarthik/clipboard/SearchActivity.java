@@ -2,8 +2,6 @@ package garg.sarthik.clipboard;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.res.Resources;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -65,7 +62,10 @@ public class SearchActivity extends AppCompatActivity {
                 if (!etSearch.getText().toString().isEmpty()) {
                     searchtxt = etSearch.getText().toString().trim();
 
-                    search();
+                    if (search())
+                        Toast.makeText(SearchActivity.this, "No Clip(s) Found", Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(SearchActivity.this, "I hope you found what you were looking for", Toast.LENGTH_SHORT).show();
                     callAdapter();
                 }
             }
@@ -75,7 +75,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void callAdapter() {
-        if (Statics.rvView.equals(Statics.gridView))
+        if (Statics.layout.equals(Statics.gridView))
             rvClipBoard.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         else
             rvClipBoard.setLayoutManager(new LinearLayoutManager(this));
@@ -88,24 +88,20 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
-    public void search() {
+    public boolean search() {
 
-        String content;
         boolean isFound = false;
         resultClips = new ArrayList<>();
+
         for (Clip clip : clipList) {
-            content = clip.getContent();
-            if (Pattern.compile(Pattern.quote(searchtxt), Pattern.CASE_INSENSITIVE).matcher(content).find()) {
+
+            if (Pattern.compile(Pattern.quote(searchtxt), Pattern.CASE_INSENSITIVE).matcher(clip.getContent()).find()) {
                 resultClips.add(clip);
                 isFound = true;
             }
         }
 
-        if (!isFound)
-            Toast.makeText(this, "No Clip(s) Found", Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(this, "I hope you found what you were looking for", Toast.LENGTH_SHORT).show();
-
+        return isFound;
     }
 
     @Override
@@ -146,6 +142,7 @@ public class SearchActivity extends AppCompatActivity {
                                         Toast.makeText(SearchActivity.this, "Please select the victim first", Toast.LENGTH_SHORT).show();
                                 } catch (Exception e) {
                                     Log.e(TAG, "onClick: \n\n\n", e);
+                                    Toast.makeText(SearchActivity.this, "Please try again!!!", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         })

@@ -22,6 +22,7 @@ public class Frag_Clip extends Fragment {
     FragmentUpdateBookmark fragmentUpdateBookmark;
 
     private boolean isBordered = false;
+    private boolean isEmptyList = true;
 
     @Nullable
     @Override
@@ -29,9 +30,10 @@ public class Frag_Clip extends Fragment {
 
         clipList = ClipApplication.getClipDb().getClipDao().getAll();
         View view;
-        if(clipList.isEmpty())
-        view = inflater.inflate(R.layout.layout_noclip,container,false);
+        if (clipList.isEmpty())
+            view = inflater.inflate(R.layout.layout_noclip, container, false);
         else {
+            isEmptyList = true;
             view = inflater.inflate(R.layout.layout_rview, container, false);
             rvClipBoard = view.findViewById(R.id.rvClipBoard);
             callAdapter();
@@ -51,13 +53,14 @@ public class Frag_Clip extends Fragment {
         rvClipBoard.setAdapter(clipAdaptor);
 
         if (!isBordered) {
-            rvClipBoard.addItemDecoration(new Statics.SpaceItemDecoration(clipList,getContext()));
+            rvClipBoard.addItemDecoration(new Statics.SpaceItemDecoration(clipList, getContext()));
             isBordered = true;
         }
     }
 
     void update() {
-        callAdapter();
+        if (!isEmptyList)
+            callAdapter();
     }
 
     public List<Clip> send() {

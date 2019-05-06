@@ -30,6 +30,7 @@ public class ClipApplication extends Application {
                 ClipDb.class,
                 "clip-db")
                 .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
                 .addMigrations()
                 .build();
     }

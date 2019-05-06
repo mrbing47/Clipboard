@@ -22,7 +22,6 @@ public class Frag_Clip extends Fragment {
     FragmentUpdateBookmark fragmentUpdateBookmark;
 
     private boolean isBordered = false;
-    private boolean isEmptyList = true;
 
     @Nullable
     @Override
@@ -33,7 +32,6 @@ public class Frag_Clip extends Fragment {
         if (clipList.isEmpty())
             view = inflater.inflate(R.layout.layout_noclip, container, false);
         else {
-            isEmptyList = true;
             view = inflater.inflate(R.layout.layout_rview, container, false);
             rvClipBoard = view.findViewById(R.id.rvClipBoard);
             callAdapter();
@@ -43,24 +41,27 @@ public class Frag_Clip extends Fragment {
 
     private void callAdapter() {
 
-        if (Statics.layout.equals(Statics.gridView))
-            rvClipBoard.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        else
-            rvClipBoard.setLayoutManager(new LinearLayoutManager(getContext()));
-
         clipList = ClipApplication.getClipDb().getClipDao().getAll();
-        clipAdaptor = new ClipAdaptor(clipList, getContext(), this);
-        rvClipBoard.setAdapter(clipAdaptor);
 
-        if (!isBordered) {
-            rvClipBoard.addItemDecoration(new Statics.SpaceItemDecoration(clipList, getContext()));
-            isBordered = true;
+        if (!clipList.isEmpty()) {
+            if (Statics.layout.equals(Statics.gridView))
+                rvClipBoard.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+            else
+                rvClipBoard.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
+            clipAdaptor = new ClipAdaptor(clipList, getContext(), this);
+            rvClipBoard.setAdapter(clipAdaptor);
+
+            if (!isBordered) {
+                rvClipBoard.addItemDecoration(new Statics.SpaceItemDecoration(clipList, getContext()));
+                isBordered = true;
+            }
         }
     }
 
     void update() {
-        if (!isEmptyList)
-            callAdapter();
+        callAdapter();
     }
 
     public List<Clip> send() {

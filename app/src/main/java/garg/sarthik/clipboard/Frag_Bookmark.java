@@ -22,7 +22,6 @@ public class Frag_Bookmark extends Fragment {
     FragmentUpdateAll fragmentUpdateAll;
 
     private boolean isBordered = false;
-    private boolean isEmptyList = true;
 
     @Nullable
     @Override
@@ -33,7 +32,6 @@ public class Frag_Bookmark extends Fragment {
         if (clipList.isEmpty())
             view = inflater.inflate(R.layout.layout_nobookmark, container, false);
         else {
-            isEmptyList = false;
             view = inflater.inflate(R.layout.layout_rview, container, false);
             rvClipBoard = view.findViewById(R.id.rvClipBoard);
             callAdapter();
@@ -42,23 +40,28 @@ public class Frag_Bookmark extends Fragment {
     }
 
     private void callAdapter() {
-        if (Statics.layout.equals(Statics.gridView))
-            rvClipBoard.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        else
-            rvClipBoard.setLayoutManager(new LinearLayoutManager(getContext()));
 
         clipList = ClipApplication.getClipDb().getClipDao().getBookmarked();
-        clipAdaptor = new ClipAdaptor(clipList, getContext(), this);
-        rvClipBoard.setAdapter(clipAdaptor);
-        if (!isBordered) {
-            rvClipBoard.addItemDecoration(new Statics.SpaceItemDecoration(clipList, getContext()));
-            isBordered = true;
+
+        if(!clipList.isEmpty()) {
+
+            if (Statics.layout.equals(Statics.gridView))
+                rvClipBoard.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+            else
+                rvClipBoard.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
+            clipAdaptor = new ClipAdaptor(clipList, getContext(), this);
+            rvClipBoard.setAdapter(clipAdaptor);
+            if (!isBordered) {
+                rvClipBoard.addItemDecoration(new Statics.SpaceItemDecoration(clipList, getContext()));
+                isBordered = true;
+            }
         }
     }
 
     public void update() {
-        if (!isEmptyList)
-            callAdapter();
+        callAdapter();
     }
 
     public void updateOther() {

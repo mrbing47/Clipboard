@@ -79,8 +79,8 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
-        Statics.menu = menu;
-        // Inflate the menu; this adds items to the action bar if it is present.
+        Statics.menuMain = menu;
+        // Inflate the menuMain; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
         if (menu != null) {

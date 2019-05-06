@@ -39,6 +39,7 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+
         btnSearch = findViewById(R.id.btnSearch);
         etSearch = findViewById(R.id.etSearch);
         rvClipBoard = findViewById(R.id.rvSearch);
@@ -106,8 +107,12 @@ public class SearchActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menuMain; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_search, menu);
+        Statics.menuSearch = menu;
+        Statics.checkedCounter = 0;
+        Statics.swapMenu(this);
+
         return true;
     }
 
@@ -155,6 +160,9 @@ public class SearchActivity extends AppCompatActivity {
                         .create()
                         .show();
 
+                Statics.checkedCounter = 0;
+                Statics.swapMenu(this);
+
                 return true;
             }
             case R.id.miDeleteAllSearch: {
@@ -176,6 +184,8 @@ public class SearchActivity extends AppCompatActivity {
                         })
                         .create()
                         .show();
+                Statics.checkedCounter = 0;
+                Statics.swapMenu(this);
                 return true;
             }
             default:

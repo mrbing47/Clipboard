@@ -22,7 +22,7 @@
     <!--android:icon="@drawable/ic_more"-->
     <!--android:title="More"-->
     <!--app:showAsAction="always">-->
-    <!--<menu>-->
+    <!--<menuMain>-->
 
     <item
         android:id="@+id/miDelete"
@@ -34,7 +34,7 @@
         android:icon="@drawable/ic_delete_all_white"
         android:title="Delete All"
         app:showAsAction="ifRoom" />
-    <!--</menu>-->
+    <!--</menuMain>-->
     <!--</item>-->
     <item
         android:id="@+id/miListView"

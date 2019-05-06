@@ -108,13 +108,13 @@ public class MyForegroundService extends Service implements ClipboardManager.OnP
     public void stopService() {
         Statics.isListening = false;
 
-        if (Statics.menu != null) {
+        if (Statics.menuMain != null) {
             if (Statics.isListening) {
-                Statics.menu.findItem(R.id.miStart).setVisible(false);
-                Statics.menu.findItem(R.id.miStop).setVisible(true);
+                Statics.menuMain.findItem(R.id.miStart).setVisible(false);
+                Statics.menuMain.findItem(R.id.miStop).setVisible(true);
             } else {
-                Statics.menu.findItem(R.id.miStart).setVisible(true);
-                Statics.menu.findItem(R.id.miStop).setVisible(false);
+                Statics.menuMain.findItem(R.id.miStart).setVisible(true);
+                Statics.menuMain.findItem(R.id.miStop).setVisible(false);
             }
         }
 

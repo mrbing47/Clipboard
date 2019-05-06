@@ -20,7 +20,8 @@ public class Statics {
     public static final int border = 10;
     public static boolean isListening = false;
     public static String layout;
-    public static Menu menu;
+    public static Menu menuMain;
+    public static Menu menuSearch;
     public static int checkedCounter = 0;
 
 
@@ -29,53 +30,53 @@ public class Statics {
         if (context instanceof MainActivity) {
 
             if (checkedCounter > 0) {
-                menu.findItem(R.id.miStart).setVisible(false);
-                menu.findItem(R.id.miStop).setVisible(false);
+                menuMain.findItem(R.id.miStart).setVisible(false);
+                menuMain.findItem(R.id.miStop).setVisible(false);
 
 
-                menu.findItem(R.id.miGridView).setVisible(false);
-                menu.findItem(R.id.miListView).setVisible(false);
+                menuMain.findItem(R.id.miGridView).setVisible(false);
+                menuMain.findItem(R.id.miListView).setVisible(false);
 
-                menu.findItem(R.id.miSearch).setVisible(false);
+                menuMain.findItem(R.id.miSearch).setVisible(false);
 
-                menu.findItem(R.id.miDelete).setVisible(true);
-                menu.findItem(R.id.miDeleteAll).setVisible(true);
+                menuMain.findItem(R.id.miDelete).setVisible(true);
+                menuMain.findItem(R.id.miDeleteAll).setVisible(true);
 
             } else {
 
                 if (isListening) {
-                    menu.findItem(R.id.miStart).setVisible(false);
-                    menu.findItem(R.id.miStop).setVisible(true);
+                    menuMain.findItem(R.id.miStart).setVisible(false);
+                    menuMain.findItem(R.id.miStop).setVisible(true);
                 } else {
-                    menu.findItem(R.id.miStart).setVisible(true);
-                    menu.findItem(R.id.miStop).setVisible(false);
+                    menuMain.findItem(R.id.miStart).setVisible(true);
+                    menuMain.findItem(R.id.miStop).setVisible(false);
 
                 }
 
                 if (Statics.layout.equals(Statics.gridView)) {
-                    menu.findItem(R.id.miGridView).setVisible(false);
-                    menu.findItem(R.id.miListView).setVisible(true);
+                    menuMain.findItem(R.id.miGridView).setVisible(false);
+                    menuMain.findItem(R.id.miListView).setVisible(true);
                 } else {
-                    menu.findItem(R.id.miGridView).setVisible(true);
-                    menu.findItem(R.id.miListView).setVisible(false);
+                    menuMain.findItem(R.id.miGridView).setVisible(true);
+                    menuMain.findItem(R.id.miListView).setVisible(false);
                 }
 
 
-                menu.findItem(R.id.miSearch).setVisible(true);
+                menuMain.findItem(R.id.miSearch).setVisible(true);
 
-                menu.findItem(R.id.miDelete).setVisible(false);
-                menu.findItem(R.id.miDeleteAll).setVisible(false);
+                menuMain.findItem(R.id.miDelete).setVisible(false);
+                menuMain.findItem(R.id.miDeleteAll).setVisible(false);
             }
         }
         if(context instanceof SearchActivity){
             if (checkedCounter > 0) {
-                menu.findItem(R.id.miDeleteSearch).setVisible(true);
-                menu.findItem(R.id.miDeleteAllSearch).setVisible(true);
+                menuSearch.findItem(R.id.miDeleteSearch).setVisible(true);
+                menuSearch.findItem(R.id.miDeleteAllSearch).setVisible(true);
 
             } else {
 
-                menu.findItem(R.id.miDeleteSearch).setVisible(false);
-                menu.findItem(R.id.miDeleteAllSearch).setVisible(false);
+                menuSearch.findItem(R.id.miDeleteSearch).setVisible(false);
+                menuSearch.findItem(R.id.miDeleteAllSearch).setVisible(false);
             }
         }
     }

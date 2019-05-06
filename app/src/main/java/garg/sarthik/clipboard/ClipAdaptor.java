@@ -124,16 +124,16 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
                         clipList.get(position).setChecked(isChecked);
                         if (isChecked) {
 
-                            if (Statics.checkedCounter == 0) {
-                                Statics.isChecked = true;
+                            Statics.checkedCounter++;
+                            if (Statics.checkedCounter == 1) {
                                 Statics.swapMenu(context);
                             }
-                            Statics.checkedCounter++;
+
 
                         } else {
+
                             Statics.checkedCounter--;
                             if (Statics.checkedCounter == 0) {
-                                Statics.isChecked = false;
                                 Statics.swapMenu(context);
                             }
                         }

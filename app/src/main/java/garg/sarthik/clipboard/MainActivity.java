@@ -3,6 +3,7 @@ package garg.sarthik.clipboard;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
 
     Menu menu;
 
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onStart() {
         if (fragAll != null)
@@ -41,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
         if (fragBookmark != null)
             updateAdapterBookmark();
 
-        Statics.isChecked = false;
         Statics.checkedCounter = 0;
 
         if (menu != null) {
@@ -55,6 +57,15 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
+
+        if (sharedPreferences.contains("view")) {
+            Statics.rvView = sharedPreferences.getString("view", "grid");
+        } else
+            Statics.rvView = Statics.gridView;
+
 
         clipAll = new ArrayList<>();
         toolbar = findViewById(R.id.toolbarMain);
@@ -161,6 +172,10 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
                                         updateBoth();
                                     else
                                         updateAdapterAll();
+
+                                    Statics.checkedCounter = 0;
+                                    Statics.swapMenu(MainActivity.this);
+
                                 } else
                                     Toast.makeText(MainActivity.this, "Please select the victim first", Toast.LENGTH_SHORT).show();
 
@@ -185,7 +200,11 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
                             public void onClick(DialogInterface dialog, int which) {
                                 deleteAll();
                                 updateBoth();
+
                                 Toast.makeText(MainActivity.this, "RIP to all those clips", Toast.LENGTH_SHORT).show();
+
+                                Statics.checkedCounter = 0;
+                                Statics.swapMenu(MainActivity.this);
                             }
                         })
                         .setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -196,6 +215,20 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
                         })
                         .create()
                         .show();
+                return true;
+            }
+            case R.id.miGridView: {
+                Statics.rvView = Statics.gridView;
+                menu.findItem(R.id.miGridView).setVisible(false);
+                menu.findItem(R.id.miListView).setVisible(true);
+                updateBoth();
+                return true;
+            }
+            case R.id.miListView: {
+                Statics.rvView = Statics.listView;
+                menu.findItem(R.id.miListView).setVisible(false);
+                menu.findItem(R.id.miGridView).setVisible(true);
+                updateBoth();
                 return true;
             }
             default:
@@ -235,9 +268,15 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
 
     @Override
     protected void onStop() {
+
         Log.e(TAG, "onDestroy: 1");
         super.onStop();
         Log.e(TAG, "onDestroy: 2");
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString("view", Statics.rvView);
+        editor.apply();
+
 
     }
 

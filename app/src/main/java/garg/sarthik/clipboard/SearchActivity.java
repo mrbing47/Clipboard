@@ -63,7 +63,7 @@ public class SearchActivity extends AppCompatActivity {
                 if (!etSearch.getText().toString().isEmpty()) {
                     searchtxt = etSearch.getText().toString().trim();
 
-                    if (search())
+                    if (!search())
                         Toast.makeText(SearchActivity.this, "No Clip(s) Found", Toast.LENGTH_SHORT).show();
                     else
                         Toast.makeText(SearchActivity.this, "I hope you found what you were looking for", Toast.LENGTH_SHORT).show();

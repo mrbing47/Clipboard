@@ -13,17 +13,17 @@ import garg.sarthik.clipboard.Clip;
 @Dao
 public interface ClipDao {
 
-    @Query("SELECT * from clip")
+    @Query("SELECT * from clip WHERE hidden = 0")
     List<Clip> getAll();
 
-    @Query("DELETE from clip")
-    void deleteAll();
+    @Query("SELECT * from clip WHERE hidden = 1")
+    List<Clip> getAllHidden();
 
-    @Query("SELECT * FROM clip WHERE bookmarked = 1 ")
+    @Query("SELECT * FROM clip WHERE bookmarked = 1 AND hidden = 0")
     List<Clip> getBookmarked();
 
-    @Insert
-    void insertClipList(List<Clip> clipList);
+    @Query("SELECT * FROM clip WHERE bookmarked = 1 AND hidden = 1")
+    List<Clip> getBookmarkedHidden();
 
     @Insert
     void insertClip(Clip clip);

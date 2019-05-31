@@ -17,12 +17,18 @@
         android:icon="@drawable/ic_search"
         android:title="Search"
         app:showAsAction="ifRoom" />
-    <!--<item-->
-    <!--android:id="@+id/action_more"-->
-    <!--android:icon="@drawable/ic_more"-->
-    <!--android:title="More"-->
-    <!--app:showAsAction="always">-->
-    <!--<menuMain>-->
+
+    <item
+        android:id="@+id/miHide"
+        android:icon="@drawable/ic_hide"
+        android:title="Hide"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/miUnhide"
+        android:icon="@drawable/ic_unhide"
+        android:title="Unhide"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/miDelete"
@@ -34,17 +40,22 @@
         android:icon="@drawable/ic_delete_all_white"
         android:title="Delete All"
         app:showAsAction="ifRoom" />
-    <!--</menuMain>-->
-    <!--</item>-->
+
     <item
         android:id="@+id/miListView"
-        android:icon="@drawable/ic_delete_white"
+        android:icon="@drawable/ic_list"
         android:title="List View"
         app:showAsAction="never" />
     <item
         android:id="@+id/miGridView"
-        android:icon="@drawable/ic_delete_white"
+        android:icon="@drawable/ic_dashboard"
         android:title="Grid View"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/miHidden"
+        android:icon="@drawable/ic_invisibility"
+        android:title="Hidden"
         app:showAsAction="never" />
 
 </menu>

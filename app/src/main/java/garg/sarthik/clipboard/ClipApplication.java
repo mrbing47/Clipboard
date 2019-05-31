@@ -10,16 +10,20 @@ import garg.sarthik.clipboard.db.ClipDb;
 
 public class ClipApplication extends Application {
 
-    final static Migration migrationUpdate = new Migration(2, 3) {
+    final static Migration migration1_2 = new Migration(1, 2) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
 
+            database.execSQL("ALTER TABLE clip " +
+                    "ADD COLUMN bookmarked INTEGER DEFAULT 0 NOT NULL");
         }
     };
-    final static Migration migration2_3 = new Migration(2,3) {
+    final static Migration migration2_3 = new Migration(2, 3) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
 
+            database.execSQL("ALTER TABLE clip " +
+                    "ADD COLUMN hidden INTEGER DEFAULT 0 NOT NULL");
         }
     };
     static ClipDb clipDb;
@@ -36,8 +40,7 @@ public class ClipApplication extends Application {
                 ClipDb.class,
                 "clip-db")
                 .allowMainThreadQueries()
-                .fallbackToDestructiveMigration()
-                .addMigrations(migration2_3)
+                .addMigrations(migration1_2, migration2_3)
                 .build();
     }
 

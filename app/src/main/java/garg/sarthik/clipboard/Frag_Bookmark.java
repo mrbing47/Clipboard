@@ -28,15 +28,6 @@ public class Frag_Bookmark extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-//        clipList = ClipApplication.getClipDb().getClipDao().getBookmarked();
-//        View view;
-//        if (clipList.isEmpty())
-//            view = inflater.inflate(R.layout.layout_nobookmark, container, false);
-//        else {
-//            view = inflater.inflate(R.layout.layout_rview, container, false);
-//            rvClipBoard = view.findViewById(R.id.rvClipBoard);
-//            callAdapter();
-//        }
         View view = inflater.inflate(R.layout.layout_nobookmark, container, false);
         rvClipBoard = view.findViewById(R.id.rvClipBoardBookmark);
 
@@ -46,7 +37,11 @@ public class Frag_Bookmark extends Fragment {
 
     private void callAdapter() {
 
-        clipList = ClipApplication.getClipDb().getClipDao().getBookmarked();
+        if (Statics.isHiddenActivity)
+            clipList = ClipApplication.getClipDb().getClipDao().getBookmarkedHidden();
+        else
+            clipList = ClipApplication.getClipDb().getClipDao().getBookmarked();
+
         Log.e("TAG_ClipBookmark", "callAdapter: \n\n" + clipList.size());
         if (!clipList.isEmpty()) {
 
@@ -91,6 +86,5 @@ public class Frag_Bookmark extends Fragment {
     public interface FragmentUpdateAll {
         void updateAdapterAll();
     }
-
 
 }

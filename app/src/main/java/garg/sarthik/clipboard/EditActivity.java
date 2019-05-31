@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EditActivity extends AppCompatActivity {
 
@@ -20,10 +21,16 @@ public class EditActivity extends AppCompatActivity {
 
     String orgTxt;
     String modTxt;
-    int bookmark;
+    int orgBookmark;
 
     Clip orgClip;
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Statics.currentActivity = "edit";
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +45,14 @@ public class EditActivity extends AppCompatActivity {
         if (getIntent() != null) {
 
             orgClip = getIntent().getParcelableExtra("clip");
-            bookmark = getIntent().getIntExtra("bookmark", 0);
-
+            orgBookmark = getIntent().getIntExtra("bookmark", 0);
             orgTxt = orgClip.getContent();
             etClip.setText(orgTxt);
             tvEditDate.setText(orgClip.getDate());
+        }
+        else{
+            Toast.makeText(this, "Error in opening the clip, Please try again!", Toast.LENGTH_SHORT).show();
+            finish();
         }
 
     }
@@ -65,8 +75,8 @@ public class EditActivity extends AppCompatActivity {
             case R.id.miSave: {
 
                 modTxt = etClip.getText().toString().trim();
-                Clip clip = new Clip(modTxt, orgClip.getDate(), bookmark);
-                Log.e(TAG, "onOptionsItemSelected: Bookmarked = " + bookmark);
+                Clip clip = new Clip(modTxt, orgClip.getDate(), orgBookmark, orgClip.getHidden());
+                Log.e(TAG, "onOptionsItemSelected: Bookmarked = " + orgBookmark);
                 if (!orgTxt.equals(modTxt)) {
 
                     ClipApplication.getClipDb().getClipDao().deleteClip(orgClip);

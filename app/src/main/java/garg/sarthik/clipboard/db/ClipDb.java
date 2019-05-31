@@ -5,7 +5,7 @@ import android.arch.persistence.room.RoomDatabase;
 
 import garg.sarthik.clipboard.Clip;
 
-@Database(entities = Clip.class, version = 2, exportSchema = false)
+@Database(entities = Clip.class, version = 3, exportSchema = false)
 public abstract class ClipDb extends RoomDatabase {
 
     public abstract ClipDao getClipDao();

@@ -37,8 +37,13 @@ public class Frag_Clip extends Fragment {
 
     private void callAdapter() {
 
-        clipList = ClipApplication.getClipDb().getClipDao().getAll();
+        if (Statics.isHiddenActivity)
+            clipList = ClipApplication.getClipDb().getClipDao().getAllHidden();
+        else
+            clipList = ClipApplication.getClipDb().getClipDao().getAll();
+
         Log.e("TAG_ClipAll", "callAdapter: \n\n" + clipList.size());
+
         if (!clipList.isEmpty()) {
 
             rvClipBoard.setVisibility(View.VISIBLE);

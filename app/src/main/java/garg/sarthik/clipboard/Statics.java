@@ -9,23 +9,27 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.List;
 
 public class Statics {
 
+    public static boolean initial = true;
+    public static String currentActivity = "";
     public static final String gridView = "grid";
     public static final String listView = "list";
 
     public static final int border = 10;
     public static boolean isListening = false;
+    public static boolean isHiddenActivity = false;
     public static String layout;
     public static Menu menuMain;
     public static Menu menuSearch;
     public static int checkedCounter = 0;
 
 
-    public static void swapMenu(Context context) {
+    public static void updateMenu(Context context) {
 
         if (context instanceof MainActivity) {
 
@@ -37,10 +41,17 @@ public class Statics {
                 menuMain.findItem(R.id.miGridView).setVisible(false);
                 menuMain.findItem(R.id.miListView).setVisible(false);
 
+                menuMain.findItem(R.id.miHidden).setVisible(false);
+
                 menuMain.findItem(R.id.miSearch).setVisible(false);
 
                 menuMain.findItem(R.id.miDelete).setVisible(true);
                 menuMain.findItem(R.id.miDeleteAll).setVisible(true);
+
+                if(isHiddenActivity)
+                    menuMain.findItem(R.id.miUnhide).setVisible(true);
+                else
+                    menuMain.findItem(R.id.miHide).setVisible(true);
 
             } else {
 
@@ -53,7 +64,7 @@ public class Statics {
 
                 }
 
-                if (Statics.layout.equals(Statics.gridView)) {
+                if (layout.equals(gridView)) {
                     menuMain.findItem(R.id.miGridView).setVisible(false);
                     menuMain.findItem(R.id.miListView).setVisible(true);
                 } else {
@@ -61,8 +72,15 @@ public class Statics {
                     menuMain.findItem(R.id.miListView).setVisible(false);
                 }
 
+                if(isHiddenActivity)
+                    menuMain.findItem(R.id.miHidden).setVisible(false);
+                else
+                    menuMain.findItem(R.id.miHidden).setVisible(true);
 
                 menuMain.findItem(R.id.miSearch).setVisible(true);
+
+                menuMain.findItem(R.id.miUnhide).setVisible(false);
+                menuMain.findItem(R.id.miHide).setVisible(false);
 
                 menuMain.findItem(R.id.miDelete).setVisible(false);
                 menuMain.findItem(R.id.miDeleteAll).setVisible(false);

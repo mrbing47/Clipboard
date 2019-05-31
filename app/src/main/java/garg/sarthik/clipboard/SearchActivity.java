@@ -35,6 +35,13 @@ public class SearchActivity extends AppCompatActivity {
     private boolean isBordered = false;
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        Statics.currentActivity = "search";
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
@@ -111,7 +118,7 @@ public class SearchActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_search, menu);
         Statics.menuSearch = menu;
         Statics.checkedCounter = 0;
-        Statics.swapMenu(this);
+        Statics.updateMenu(this);
 
         return true;
     }
@@ -161,7 +168,7 @@ public class SearchActivity extends AppCompatActivity {
                         .show();
 
                 Statics.checkedCounter = 0;
-                Statics.swapMenu(this);
+                Statics.updateMenu(this);
 
                 return true;
             }
@@ -185,7 +192,7 @@ public class SearchActivity extends AppCompatActivity {
                         .create()
                         .show();
                 Statics.checkedCounter = 0;
-                Statics.swapMenu(this);
+                Statics.updateMenu(this);
                 return true;
             }
             default:

@@ -19,7 +19,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements Frag_Bookmark.FragmentUpdateAll, Frag_Clip.FragmentUpdateBookmark {
@@ -29,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
     Intent intent;
     TabLayout tabLayout;
     ViewPager vp;
-    List<Clip> clipAll;
+    List<Clip> clipList;
     Frag_Clip fragAll;
     Frag_Bookmark fragBookmark;
 
@@ -39,16 +38,21 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
 
     @Override
     protected void onStart() {
-        if (fragAll != null)
+
+        if (Statics.currentActivity.equals("main"))
+            Statics.isHiddenActivity = false;
+
+        if (!Statics.initial) {
+
             updateAdapterAll();
-        if (fragBookmark != null)
             updateAdapterBookmark();
+            Statics.checkedCounter = 0;
+            Statics.updateMenu(this);
 
-        Statics.checkedCounter = 0;
+        } else
+            Statics.initial = false;
 
-        if (menu != null) {
-            Statics.swapMenu(this);
-        }
+        Statics.currentActivity = "main";
 
         super.onStart();
     }
@@ -58,16 +62,20 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (!Statics.isHiddenActivity && getIntent() != null)
+            Statics.isHiddenActivity = getIntent().getBooleanExtra("hide", false);
+        else
+            Statics.isHiddenActivity = false;
+
+        Log.e(TAG, "onCreate: \n\n" + Statics.isHiddenActivity + "\n\n");
 
         sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
-
 
         if (sharedPreferences.contains("layout")) {
             Statics.layout = sharedPreferences.getString("layout", "grid");
         } else
             Statics.layout = Statics.gridView;
 
-        clipAll = new ArrayList<>();
         toolbar = findViewById(R.id.toolbarMain);
         setSupportActionBar(toolbar);
 
@@ -82,10 +90,7 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
         Statics.menuMain = menu;
         // Inflate the menuMain; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        if (menu != null) {
-            Statics.swapMenu(this);
-        }
+        Statics.updateMenu(this);
 
         return true;
     }
@@ -149,16 +154,15 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
                                 int current = vp.getCurrentItem();
                                 Log.e(TAG, "onClick: " + current);
 
-                                if (current == 0) {
-                                    clipAll = fragAll.send();
-                                } else {
-                                    clipAll = fragBookmark.send();
-                                }
+                                if (current == 0)
+                                    clipList = fragAll.send();
+                                else
+                                    clipList = fragBookmark.send();
 
                                 boolean isSelected = false;
                                 boolean isBookmarked = false;
 
-                                for (Clip clip : clipAll) {
+                                for (Clip clip : clipList) {
                                     if (clip.isChecked()) {
                                         isSelected = true;
                                         if (clip.getBookmarked() == 1)
@@ -174,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
                                         updateAdapterAll();
 
                                     Statics.checkedCounter = 0;
-                                    Statics.swapMenu(MainActivity.this);
+                                    Statics.updateMenu(MainActivity.this);
 
                                 } else
                                     Toast.makeText(MainActivity.this, "Please select the victim first", Toast.LENGTH_SHORT).show();
@@ -204,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
                                 Toast.makeText(MainActivity.this, "RIP to all those clips", Toast.LENGTH_SHORT).show();
 
                                 Statics.checkedCounter = 0;
-                                Statics.swapMenu(MainActivity.this);
+                                Statics.updateMenu(MainActivity.this);
                             }
                         })
                         .setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -231,6 +235,94 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
                 updateBoth();
                 return true;
             }
+
+            case R.id.miHide: {
+
+                int current = vp.getCurrentItem();
+                Log.e(TAG, "onClick: " + current);
+
+                if (current == 0)
+                    clipList = fragAll.send();
+                else
+                    clipList = fragBookmark.send();
+
+                boolean isSelected = false;
+                boolean isBookmarked = false;
+
+                for (Clip clip : clipList) {
+
+                    if (clip.isChecked()) {
+                        isSelected = true;
+
+                        if (clip.getBookmarked() == 1)
+                            isBookmarked = true;
+
+                        clip.setHidden(1);
+                        ClipApplication.getClipDb().getClipDao().updateClip(clip);
+
+                    }
+                }
+                if (isSelected) {
+                    Toast.makeText(MainActivity.this, "They are now safe with me", Toast.LENGTH_SHORT).show();
+                    if (isBookmarked)
+                        updateBoth();
+                    else
+                        updateAdapterAll();
+
+                    Statics.checkedCounter = 0;
+                    Statics.updateMenu(MainActivity.this);
+
+                } else
+                    Toast.makeText(MainActivity.this, "Please select the victim first", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            case R.id.miUnhide: {
+                int current = vp.getCurrentItem();
+                Log.e(TAG, "onClick: " + current);
+
+                if (current == 0)
+                    clipList = fragAll.send();
+                else
+                    clipList = fragBookmark.send();
+
+
+                boolean isSelected = false;
+                boolean isBookmarked = false;
+
+                for (Clip clip : clipList) {
+
+                    if (clip.isChecked()) {
+                        isSelected = true;
+
+                        if (clip.getBookmarked() == 1)
+                            isBookmarked = true;
+
+                        clip.setHidden(0);
+                        ClipApplication.getClipDb().getClipDao().updateClip(clip);
+                    }
+
+                }
+                if (isSelected) {
+                    Toast.makeText(MainActivity.this, "Now these are your responsibility", Toast.LENGTH_SHORT).show();
+                    if (isBookmarked)
+                        updateBoth();
+                    else
+                        updateAdapterAll();
+
+                    Statics.checkedCounter = 0;
+                    Statics.updateMenu(MainActivity.this);
+
+                } else
+                    Toast.makeText(MainActivity.this, "Please select the victim first", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            case R.id.miHidden: {
+
+                startActivity(new Intent(this, AuthActivity.class));
+                return true;
+            }
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -238,8 +330,15 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
     }
 
     public void deleteAll() {
-        List<Clip> clipList = ClipApplication.getClipDb().getClipDao().getAll();
-        for (Clip clip : clipList)
+        List<Clip> clipListDelete;
+
+        if (Statics.isHiddenActivity)
+            clipListDelete = ClipApplication.getClipDb().getClipDao().getAllHidden();
+        else
+            clipListDelete = ClipApplication.getClipDb().getClipDao().getAll();
+
+
+        for (Clip clip : clipListDelete)
             ClipApplication.getClipDb().getClipDao().deleteClip(clip);
     }
 
@@ -274,7 +373,31 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
         Log.e(TAG, "onDestroy: 2");
 
         sharedPreferences.edit().putString("layout", Statics.layout).apply();
+    }
 
+    @Override
+    public void onBackPressed() {
+
+        if (Statics.checkedCounter > 0) {
+
+            Statics.checkedCounter = 0;
+            Statics.updateMenu(this);
+
+            int current = vp.getCurrentItem();
+
+            if (current == 0)
+                clipList = fragAll.send();
+            else
+                clipList = fragBookmark.send();
+
+            for (Clip clip : clipList)
+                if (clip.isChecked())
+                    clip.setChecked(false);
+
+            updateBoth();
+            return;
+        }
+        super.onBackPressed();
     }
 
     class MyPagerAdapter extends FragmentPagerAdapter {

@@ -53,6 +53,7 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
         //getAdapterPosition gives the exact position for the adapter
         final int position = viewHolder.getAdapterPosition();
 
+        Log.e(TAG, "onBindViewHolder: \nHIDDEN" + clipList.get(position).getHidden());
 
         {//This block sets the state of the checkbox
 
@@ -75,7 +76,6 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
             else {
                 String txt = clipList.get(position).getContent().substring(0, 253) + "...";
                 viewHolder.tvClipContent.setText(txt);
-                Log.e(TAG, "onBindViewHolder: " + txt);
             }
 
             viewHolder.tvClipDate.setText(clipList.get(position).getDate());
@@ -126,7 +126,7 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
 
                             Statics.checkedCounter++;
                             if (Statics.checkedCounter == 1) {
-                                Statics.swapMenu(context);
+                                Statics.updateMenu(context);
                             }
 
 
@@ -134,7 +134,7 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
 
                             Statics.checkedCounter--;
                             if (Statics.checkedCounter == 0) {
-                                Statics.swapMenu(context);
+                                Statics.updateMenu(context);
                             }
                         }
                         Log.e(TAG, "onCheckedChanged: \nCOUNTER:" + Statics.checkedCounter);

@@ -16,6 +16,12 @@ public class ClipApplication extends Application {
 
         }
     };
+    final static Migration migration2_3 = new Migration(2,3) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+
+        }
+    };
     static ClipDb clipDb;
 
     public static ClipDb getClipDb() {
@@ -31,7 +37,7 @@ public class ClipApplication extends Application {
                 "clip-db")
                 .allowMainThreadQueries()
                 .fallbackToDestructiveMigration()
-                .addMigrations()
+                .addMigrations(migration2_3)
                 .build();
     }
 

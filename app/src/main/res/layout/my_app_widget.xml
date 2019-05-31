@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/colorPrimaryDark"
-            android:src="@drawable/ic_flash" />
+            android:src="@drawable/ic_flash_white" />
 
         <ImageButton
             android:id="@+id/btnWidgetStop"
@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/colorPrimaryDark"
-            android:src="@drawable/ic_flash_off" />
+            android:src="@drawable/ic_flash_off_white" />
     </LinearLayout>
 
 

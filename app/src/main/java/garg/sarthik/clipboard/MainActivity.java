@@ -41,25 +41,23 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
 
         Log.e(TAG, "onStart: \n\n\n\nI'M at Start\n\n\n");
 
-        if(menu != null) {
-            Statics.menuMain = menu;
-            Statics.updateMenu(this);
-            Log.e(TAG, "onStart: \n\nINSIDE IF" );
-        }
-
         if (Statics.currentActivity.equals("main"))
             Statics.isHiddenActivity = false;
 
+        Statics.checkedCounter = 0;
 
-        if (!Statics.initial) {
+        if (menu != null) {
 
+            Statics.menuMain = menu;
+            Statics.updateMenu(this);
+        }
+
+        if (!Statics.initial)
             updateAdapterAll();
-            updateAdapterBookmark();
-
-        } else
+        else
             Statics.initial = false;
 
-        Statics.checkedCounter = 0;
+
         Statics.currentActivity = "main";
 
         super.onStart();
@@ -75,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
         else
             Statics.isHiddenActivity = false;
 
-        Log.e(TAG, "onCreate: \n\n" + Statics.isHiddenActivity + "\n\n");
+        Log.e(TAG + "HIDDEN", "onCreate: \n\n" + Statics.isHiddenActivity + "\n\n");
 
         sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
 
@@ -96,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
 
-        Log.e(TAG, "onCreateOptionsMenu: \n\n\n\nI'm at onCreateOptionMenu\n\n\n" );
+        Log.e(TAG, "onCreateOptionsMenu: \n\n\n\nI'm at onCreateOptionMenu\n\n\n");
 
         // Inflate the menuMain; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -429,7 +427,6 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
                 default:
                     return "";
             }
-
         }
 
         @Override

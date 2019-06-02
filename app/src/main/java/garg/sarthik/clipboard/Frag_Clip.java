@@ -21,7 +21,6 @@ public class Frag_Clip extends Fragment {
     RecyclerView rvClipBoard;
     ClipAdaptor clipAdaptor;
     FragmentUpdateBookmark fragmentUpdateBookmark;
-
     private boolean isBordered = false;
 
     @Nullable
@@ -47,7 +46,6 @@ public class Frag_Clip extends Fragment {
         if (!clipList.isEmpty()) {
 
             rvClipBoard.setVisibility(View.VISIBLE);
-
             if (Statics.layout.equals(Statics.gridView))
                 rvClipBoard.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
             else

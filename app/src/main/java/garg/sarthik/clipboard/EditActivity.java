@@ -49,8 +49,7 @@ public class EditActivity extends AppCompatActivity {
             orgTxt = orgClip.getContent();
             etClip.setText(orgTxt);
             tvEditDate.setText(orgClip.getDate());
-        }
-        else{
+        } else {
             Toast.makeText(this, "Error in opening the clip, Please try again!", Toast.LENGTH_SHORT).show();
             finish();
         }

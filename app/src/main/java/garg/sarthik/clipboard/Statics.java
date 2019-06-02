@@ -9,18 +9,17 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Statics {
 
-    public static boolean initial = true;
-    public static String currentActivity = "";
     public static final String gridView = "grid";
     public static final String listView = "list";
-
     public static final int border = 10;
+    public static boolean initial = true;
+    public static String currentActivity = "";
     public static boolean isListening = false;
     public static boolean isHiddenActivity = false;
     public static String layout;
@@ -48,21 +47,12 @@ public class Statics {
                 menuMain.findItem(R.id.miDelete).setVisible(true);
                 menuMain.findItem(R.id.miDeleteAll).setVisible(true);
 
-                if(isHiddenActivity)
+                if (isHiddenActivity)
                     menuMain.findItem(R.id.miUnhide).setVisible(true);
                 else
                     menuMain.findItem(R.id.miHide).setVisible(true);
 
             } else {
-
-                if (isListening) {
-                    menuMain.findItem(R.id.miStart).setVisible(false);
-                    menuMain.findItem(R.id.miStop).setVisible(true);
-                } else {
-                    menuMain.findItem(R.id.miStart).setVisible(true);
-                    menuMain.findItem(R.id.miStop).setVisible(false);
-
-                }
 
                 if (layout.equals(gridView)) {
                     menuMain.findItem(R.id.miGridView).setVisible(false);
@@ -72,11 +62,26 @@ public class Statics {
                     menuMain.findItem(R.id.miListView).setVisible(false);
                 }
 
-                if(isHiddenActivity)
-                    menuMain.findItem(R.id.miHidden).setVisible(false);
-                else
-                    menuMain.findItem(R.id.miHidden).setVisible(true);
 
+                Log.e("Statics", "updateMenu: \n\n\n" + isHiddenActivity);
+
+                if (isHiddenActivity) {
+                    menuMain.findItem(R.id.miHidden).setVisible(false);
+                    menuMain.findItem(R.id.miStart).setVisible(false);
+                    menuMain.findItem(R.id.miStop).setVisible(false);
+                }
+                else {
+
+                    if (isListening) {
+                        menuMain.findItem(R.id.miStart).setVisible(false);
+                        menuMain.findItem(R.id.miStop).setVisible(true);
+                    } else {
+                        menuMain.findItem(R.id.miStart).setVisible(true);
+                        menuMain.findItem(R.id.miStop).setVisible(false);
+                    }
+
+                    menuMain.findItem(R.id.miHidden).setVisible(true);
+                }
                 menuMain.findItem(R.id.miSearch).setVisible(true);
 
                 menuMain.findItem(R.id.miUnhide).setVisible(false);
@@ -86,7 +91,7 @@ public class Statics {
                 menuMain.findItem(R.id.miDeleteAll).setVisible(false);
             }
         }
-        if(context instanceof SearchActivity){
+        if (context instanceof SearchActivity) {
             if (checkedCounter > 0) {
                 menuSearch.findItem(R.id.miDeleteSearch).setVisible(true);
                 menuSearch.findItem(R.id.miDeleteAllSearch).setVisible(true);
@@ -169,13 +174,11 @@ public class Statics {
                     bottom = (int) px4;
 
                 } else {
-                    if(position == clipList.size() - 1)
-                    {
+                    if (position == clipList.size() - 1) {
                         Log.e("Pos", "getItemOffsets: " + position);
                         top = (int) px4;
                         bottom = (int) px8;
-                    }
-                    else {
+                    } else {
                         Log.e("Pos", "getItemOffsets: " + position);
                         top = bottom = (int) px4;
                     }

@@ -91,7 +91,7 @@ public class SearchActivity extends AppCompatActivity {
         clipAdaptor = new ClipAdaptor(resultClips, this, this);
         rvClipBoard.setAdapter(clipAdaptor);
         if (!isBordered) {
-            rvClipBoard.addItemDecoration(new Statics.SpaceItemDecoration(resultClips,this));
+            rvClipBoard.addItemDecoration(new Statics.SpaceItemDecoration(resultClips, this));
             isBordered = true;
         }
     }

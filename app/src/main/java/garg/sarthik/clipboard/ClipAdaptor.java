@@ -19,6 +19,8 @@ import android.widget.Toast;
 import java.util.Collections;
 import java.util.List;
 
+import javax.security.auth.login.LoginException;
+
 public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
 
 
@@ -31,12 +33,17 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
     private Vibrator vibrator;
 
     public ClipAdaptor(List<Clip> clipList, Context context, Object object) {
+
+        //Reverses the content of the ArrayList
         Collections.reverse(clipList);
+
         this.object = object;
         this.clipList = clipList;
         this.context = context;
+
         clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+
         Log.e(TAG, "ClipAdaptor: ");
     }
 
@@ -125,17 +132,14 @@ public class ClipAdaptor extends RecyclerView.Adapter<ClipAdaptor.ViewHolder> {
                         if (isChecked) {
 
                             Statics.checkedCounter++;
-                            if (Statics.checkedCounter == 1) {
+                            if (Statics.checkedCounter == 1)
                                 Statics.updateMenu(context);
-                            }
-
 
                         } else {
 
                             Statics.checkedCounter--;
-                            if (Statics.checkedCounter == 0) {
+                            if (Statics.checkedCounter == 0)
                                 Statics.updateMenu(context);
-                            }
                         }
                         Log.e(TAG, "onCheckedChanged: \nCOUNTER:" + Statics.checkedCounter);
                     }

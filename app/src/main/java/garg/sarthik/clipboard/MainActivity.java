@@ -39,19 +39,27 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
     @Override
     protected void onStart() {
 
+        Log.e(TAG, "onStart: \n\n\n\nI'M at Start\n\n\n");
+
+        if(menu != null) {
+            Statics.menuMain = menu;
+            Statics.updateMenu(this);
+            Log.e(TAG, "onStart: \n\nINSIDE IF" );
+        }
+
         if (Statics.currentActivity.equals("main"))
             Statics.isHiddenActivity = false;
+
 
         if (!Statics.initial) {
 
             updateAdapterAll();
             updateAdapterBookmark();
-            Statics.checkedCounter = 0;
-            Statics.updateMenu(this);
 
         } else
             Statics.initial = false;
 
+        Statics.checkedCounter = 0;
         Statics.currentActivity = "main";
 
         super.onStart();
@@ -87,9 +95,13 @@ public class MainActivity extends AppCompatActivity implements Frag_Bookmark.Fra
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
-        Statics.menuMain = menu;
+
+        Log.e(TAG, "onCreateOptionsMenu: \n\n\n\nI'm at onCreateOptionMenu\n\n\n" );
+
         // Inflate the menuMain; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        Statics.menuMain = menu;
         Statics.updateMenu(this);
 
         return true;
